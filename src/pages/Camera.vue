@@ -7,25 +7,25 @@
         ref="video"
         autoplay
       /> -->
-      <q-img :src="image1" :ratio="1" />
-      <!-- <canvas
+      <!-- <q-img :src="image2" :ratio="1" /> -->
+      <canvas
         class="full-width image"
         ref="canvas"
+        height="350"
         v-show="imageCaptured"
-      /> -->
+      />
     </div>
 
     <div class="text-center q-pa-md">
-      <q-btn
+      <!-- <q-btn
         @click="captureImage"
         v-if="!imageCaptured"
         color="black"
         size="lg"
         icon="eva-camera"
         round
-      />
-      <!-- <q-file
-        v-else-if="!hasCameraSupport"
+      /> -->
+      <q-file
         @input="captureImageFallBack"
         label="Choose an Image"
         v-model="imageUpload"
@@ -35,7 +35,7 @@
         <template v-slot:prepend>
           <q-icon name="eva-attach-outline" />
         </template>
-      </q-file> -->
+      </q-file>
     </div>
     <div v-if="imageCaptured" class="text-h6 text-bold q-ml-md q-mb-md">
       Details of fish:
@@ -51,6 +51,12 @@
         Species Name:
         <span class="text-weight-regular q-ml-xs">
           {{ speciesName }}
+        </span>
+      </div>
+      <div class="text-bold">
+        Regional Name:
+        <span class="text-weight-regular q-ml-xs">
+          {{ regionalName }}
         </span>
       </div>
     </div>
@@ -85,10 +91,14 @@ export default {
         "http://d1iraxgbwuhpbw.cloudfront.net/images/thumbnails/jpg/tn_ththy_ug.jpg",
       image1:
         "https://files.worldwildlife.org/wwfcmsprod/images/Atlantic_bluefin_tuna_253467_Tuna_Species/hero_small/925cryk2za_Bluefin_tuna_253467.jpg",
-      name: "Tuna",
+      image2:
+        "https://5.imimg.com/data5/RQ/IM/BK/SELLER-36867365/local-magur-2-500x500.jpg",
+      name: "Cat fish",
+      regionalName: "मांगुर",
       speciesName: "Cybiosarda elegans",
       imageCaptured: false,
       imageUpload: [],
+      imagesrc: "",
       hasCameraSupport: true,
     };
   },
@@ -119,6 +129,7 @@ export default {
     },
     captureImageFallBack(file) {
       console.log(file);
+      let that = this;
       this.post.photo = file;
       let canvas = this.$refs.canvas;
       let ctx = canvas.getContext("2d");
@@ -132,6 +143,7 @@ export default {
           this.imageCaptured = true;
         };
         img.src = event.target.result;
+        that.imagesrc = event.target.result;
       };
       reader.readAsDataURL(file);
     },
@@ -176,7 +188,7 @@ export default {
         name: "Details",
         params: {
           name: this.name,
-          image: this.image1
+          image: this.imagesrc,
         },
       });
     },
@@ -200,6 +212,7 @@ video {
 }
 .camera-frame {
   border: 2px solid $grey-10;
+  height: 370px;
 }
 .image {
   height: 350px;
