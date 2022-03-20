@@ -2,7 +2,7 @@
     <q-page class="q-pa-md bg-grey-2 column">
         <div class="q-mb-xl text-h5">
             <div>Welcome to</div>
-            <div class="text-bold text-h4">FishDeTec</div>
+            <div class="text-bold text-h4">AquaDeTeQ</div>
         </div>
         <div class="flex flex-center card q-mt-xl">
             <q-card class="my-card q-pa-none q-ma-none shadow-24 q-mt-xl">
