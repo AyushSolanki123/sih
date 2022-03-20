@@ -32,9 +32,13 @@
                 <span class="text-bold">Description</span>:
                 <span class="text-grey">{{ description }} </span>
               </div>
-              <div>
+              <!-- <div>
                 <span class="text-bold">Nutrition Values:</span>:
                 <span class="text-grey">{{ nutrition }} </span>
+              </div> -->
+              <div>
+                <span class="text-bold">Lifespan</span>:
+                <span class="text-grey">{{ lifespan }} </span>
               </div>
             </div>
           </q-card-section>
@@ -51,12 +55,13 @@ export default {
   name: "Details",
   data() {
     return {
-      size: "97 - 110 cm",
-      weight: "2.0 kg",
-      price: "150/kilogram",
+      size: "19.0 cm",
+      weight: "0.5 kg",
+      price: "709",
       description:
-        "This species is distinguished by the following characters: body moderately short and deep, strongly compressed;",
-      nutrition: `A 4-ounce serving of white tuna contains: \nCalories: 145\nProtein: 26.77 grams\nFat: 3.37 grams`
+        "They are named for their equine appearance, with bent necks and long snouted heads and a distinctive trunk and tail. Although they are bony fish, they do not have scales, but rather thin skin stretched over a series of bony plates",
+      nutrition: `A 4-ounce serving of white tuna contains: \nCalories: 145\nProtein: 26.77 grams\nFat: 3.37 grams`,
+      lifespan: '1 year'
     };
   },
 };

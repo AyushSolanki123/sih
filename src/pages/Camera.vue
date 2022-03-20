@@ -93,9 +93,10 @@ export default {
         "https://files.worldwildlife.org/wwfcmsprod/images/Atlantic_bluefin_tuna_253467_Tuna_Species/hero_small/925cryk2za_Bluefin_tuna_253467.jpg",
       image2:
         "https://5.imimg.com/data5/RQ/IM/BK/SELLER-36867365/local-magur-2-500x500.jpg",
-      name: "Cat fish",
-      regionalName: "मांगुर",
-      speciesName: "Cybiosarda elegans",
+      imageSeaHorse: "https://a-z-animals.com/media/Seahorse-Hippocampus.jpg",
+      name: "Sea Horse",
+      regionalName: "समुद्री घोड़ा",
+      speciesName: "Hippocampus kuda",
       imageCaptured: false,
       imageUpload: [],
       imagesrc: "",
