@@ -112,9 +112,9 @@ export default {
       image2:
         "https://5.imimg.com/data5/RQ/IM/BK/SELLER-36867365/local-magur-2-500x500.jpg",
       imageSeaHorse: "https://a-z-animals.com/media/Seahorse-Hippocampus.jpg",
-      name: "Sea Horse",
-      regionalName: "समुद्री घोड़ा",
-      speciesName: "Hippocampus kuda",
+      name: "Catfish",
+      regionalName: "मांगुर",
+      speciesName: "Cybiosarda elegans",
       imageCaptured: false,
       showDialog: false,
       showPromptDialog: false,

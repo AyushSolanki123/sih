@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white text-grey-10" bordered>
       <q-toolbar class="q-pa-none">
-        <q-toolbar-title class="text-center text-bold">AquaDeTeQ </q-toolbar-title>
+        <q-toolbar-title class="text-center text-bold">FishDetec </q-toolbar-title>
       </q-toolbar>
     </q-header>
 <!-- 

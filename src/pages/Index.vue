@@ -29,16 +29,16 @@
             </div>
             <div>
               <span class="text-bold">Description</span>:
-              <span class="text-grey">{{ description }} </span>
+              <span class="text-grey">{{ descriptionCatfish }} </span>
             </div>
-            <!-- <div>
+            <div>
               <span class="text-bold">Nutrition Values:</span>:
               <span class="text-grey">{{ nutrition }} </span>
-            </div> -->
-            <div>
+            </div>
+            <!-- <div>
               <span class="text-bold">Lifespan</span>:
               <span class="text-grey">{{ lifespan }} </span>
-            </div>
+            </div> -->
           </div>
         </q-card-section>
       </q-card>
@@ -53,11 +53,12 @@ export default {
   name: "Details",
   data() {
     return {
-      size: "19.0 cm",
-      weight: "0.5 kg",
-      price: "709",
+      size: "97 - 110 cm",
+      weight: "2 kg",
+      price: "150/kilogram",
       description:
         "They are named for their equine appearance, with bent necks and long snouted heads and a distinctive trunk and tail. Although they are bony fish, they do not have scales, but rather thin skin stretched over a series of bony plates",
+      descriptionCatfish: "Catfish are a diverse group of ray-finned fish.  Named for their prominent barbels, which resemble a cat's whiskers, catfish range in size and behavior from the three largest species alive.",
       nutrition: `A 4-ounce serving of white tuna contains: \nCalories: 145\nProtein: 26.77 grams\nFat: 3.37 grams`,
       lifespan: '1 year'
     };
