@@ -5,7 +5,7 @@
             <div class="text-bold text-h4">AquaDeTeQ</div>
         </div>
         <div class="flex flex-center card q-mt-xl">
-            <q-card class="my-card q-pa-none q-ma-none shadow-24 q-mt-xl">
+            <q-card class="card q-pa-none q-ma-none shadow-24 q-mt-xl">
                 <q-card-section class="text-weight-bolder login-card-text text-center">
                     User Login
                 </q-card-section>
@@ -77,6 +77,7 @@
 
 <style lang="scss">
 .card {
-    height: 100%;
+    height: 33vh;
+    border-radius: 16px !important;
 }
 </style>

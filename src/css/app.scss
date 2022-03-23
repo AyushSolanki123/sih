@@ -1,8 +1,8 @@
 // app global css in SCSS form
-@import url('https://fonts.googleapis.com/css2?family=Dekko&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 body {
-    font-family: 'Dekko', cursive;
+    font-family: 'Poppins';
 }
 
 .btn {
@@ -16,4 +16,17 @@ body {
     border-radius: 0;
     flex: 1;
     flex-direction: row;
+}
+
+.feedback {
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.heading {
+    font-size: 24px;
+}
+
+.text {
+    font-size: 18px;
 }

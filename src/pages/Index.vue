@@ -10,38 +10,36 @@
           @click="$router.push('/')"
         /> -->
       </div>
-      <div class="text-h5 q-mt-sm q-mb-xs text-bold text-center">More Information on {{$route.params.name}}</div>
-      <q-card class="my-card">
+      <div class="heading q-mt-sm q-mb-xs text-bold text-center">More Information on {{$route.params.name}}</div>
+      <q-card class="my-card ">
         <q-img :src="$route.params.image" />
-        <q-card-section>
-          <q-card-section class="q-pt-xs">            
-            <div class="text-caption">
-              <div>
-                <span class="text-bold">Size</span>:
-                <span class="text-grey">{{ size }} </span>
-              </div>
-              <div>
-                <span class="text-bold">Weight</span>:
-                <span class="text-grey">{{ weight }} </span>
-              </div>
-              <div>
-                <span class="text-bold">Price</span>:
-                <span class="text-grey">{{ price }} </span>
-              </div>
-              <div>
-                <span class="text-bold">Description</span>:
-                <span class="text-grey">{{ description }} </span>
-              </div>
-              <!-- <div>
-                <span class="text-bold">Nutrition Values:</span>:
-                <span class="text-grey">{{ nutrition }} </span>
-              </div> -->
-              <div>
-                <span class="text-bold">Lifespan</span>:
-                <span class="text-grey">{{ lifespan }} </span>
-              </div>
+        <q-card-section class="q-pt-xs">            
+          <div class="text">
+            <div>
+              <span class="text-bold">Size</span>:
+              <span class="text-grey">{{ size }} </span>
             </div>
-          </q-card-section>
+            <div>
+              <span class="text-bold">Weight</span>:
+              <span class="text-grey">{{ weight }} </span>
+            </div>
+            <div>
+              <span class="text-bold">Price</span>:
+              <span class="text-grey">{{ price }} </span>
+            </div>
+            <div>
+              <span class="text-bold">Description</span>:
+              <span class="text-grey">{{ description }} </span>
+            </div>
+            <!-- <div>
+              <span class="text-bold">Nutrition Values:</span>:
+              <span class="text-grey">{{ nutrition }} </span>
+            </div> -->
+            <div>
+              <span class="text-bold">Lifespan</span>:
+              <span class="text-grey">{{ lifespan }} </span>
+            </div>
+          </div>
         </q-card-section>
       </q-card>
     </div>

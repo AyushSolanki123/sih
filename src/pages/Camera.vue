@@ -16,7 +16,7 @@
       />
     </div>
 
-    <div class="text-center q-pa-md">
+    <div class="q-pa-md">
       <!-- <q-btn
         @click="captureImage"
         v-if="!imageCaptured"
@@ -36,11 +36,27 @@
           <q-icon name="eva-attach-outline" />
         </template>
       </q-file>
+      <!-- <q-item class="q-my-sm feedback full-width" v-if="imageCaptured">
+        <q-item-section avatar>
+          <q-avatar color="primary" text-color="white">
+            <q-img :src="imagesrc" />
+          </q-avatar>
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label class="text-bold">Feedback</q-item-label>
+        </q-item-section>
+
+        <q-item-section side>
+          <q-btn flat dense round icon="eva-close-outline" color="black" />
+        </q-item-section>
+      </q-item> -->
     </div>
-    <div v-if="imageCaptured" class="text-h6 text-bold q-ml-md q-mb-md">
+
+    <div v-if="imageCaptured" class="heading text-bold q-ml-md q-mb-md">
       Details of fish:
     </div>
-    <div v-if="imageCaptured" class="q-ml-md text-subtitle1">
+    <div v-if="imageCaptured" class="q-ml-md text">
       <div class="text-bold">
         Name:
         <span class="text-weight-regular q-ml-xs">
@@ -62,7 +78,7 @@
     </div>
     <div
       v-show="imageCaptured"
-      class="row justify-center q-mt-lg fixed-bottom q-pa-md q-mx-md"
+      class="row q-mt-lg fixed-bottom q-pa-md q-mx-md"
     >
       <q-btn
         no-caps
@@ -78,7 +94,9 @@
 
 <script>
 import { uid } from "quasar";
+import FeedbackDialog from "src/components/FeedbackDialog.vue";
 export default {
+  components: { FeedbackDialog },
   name: "Camera",
   data() {
     return {
@@ -98,9 +116,12 @@ export default {
       regionalName: "समुद्री घोड़ा",
       speciesName: "Hippocampus kuda",
       imageCaptured: false,
+      showDialog: false,
+      showPromptDialog: false,
       imageUpload: [],
       imagesrc: "",
       hasCameraSupport: true,
+      feedbackFishName: "",
     };
   },
   methods: {
@@ -125,6 +146,7 @@ export default {
       //   let ctx = canvas.getContext("2d");
       //   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       this.imageCaptured = true;
+      this.showDialog = true;
       //   this.post.photo = this.dataURItoBlob(canvas.toDataURL());
       //   this.disableCamera();
     },
@@ -142,11 +164,13 @@ export default {
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
           this.imageCaptured = true;
+          this.showDialog = true;
         };
         img.src = event.target.result;
         that.imagesrc = event.target.result;
       };
       reader.readAsDataURL(file);
+      this.openDialog();
     },
     disableCamera() {
       this.$refs.video.srcObject.getVideoTracks().forEach((track) => {
@@ -192,6 +216,77 @@ export default {
           image: this.imagesrc,
         },
       });
+    },
+    openDialog() {
+      this.$q
+        .dialog({
+          title: "Send Feedback",
+          message: "Is the fish Correct?",
+          position: "bottom",
+          style: {
+            fontSize: '18px',
+            borderRadius: '18px 18px 0px 0px',
+          },
+          persistent: true,
+          ok: {
+            push: true,
+            flat: true,
+            label: "Yes",
+            noCaps: true,
+          },
+          cancel: {
+            push: true,
+            flat: true,
+            noCaps: true,
+            color: "negative",
+            label: "No",
+          },
+        })
+        .onOk(() => {
+          this.showDialog = false;
+        })
+        .onCancel(() => {
+          this.showDialog = false;
+          this.openPromptDialog()
+        })
+    },
+    openPromptDialog() {
+      this.$q
+        .dialog({
+          title: "Send Feedback",
+          message: "Enter correct fish name",
+          position: "bottom",
+          persistent: true,
+          style: {
+            fontSize: '18px',
+            borderRadius: '18px 18px 0px 0px',
+          },
+          ok: {
+            push: true,
+            flat: true,
+            label: "Ok",
+            noCaps: true,
+          },
+          cancel: {
+            push: true,
+            flat: true,
+            noCaps: true,
+            color: "negative",
+            label: "Cancel",
+          },
+          prompt: {
+            model: this.feedbackFishName,
+            type: "text",
+            label: "Name",
+            outlined: true,
+          },
+        })
+        .onOk(() => {
+          this.showPromptDialog = false;
+        })
+        .onCancel(() => {
+          this.showPromptDialog = false;
+        });
     },
   },
   mounted() {
