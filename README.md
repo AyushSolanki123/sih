@@ -1,4 +1,4 @@
-# Fishery (sih)
+### Fishery (sih)
 
 Application to get information about fishes by clicking their pictures
 
