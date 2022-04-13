@@ -53,6 +53,13 @@
       </q-item> -->
     </div>
 
+    <div v-if="imageCaptured" class="q-pa-md">
+      <q-input outlined v-model="weight" label="Enter Estimated weight" type="number">
+        <template v-slot:after>
+          <q-select v-model="type" :options="options" label="Standard" behavior="menu" />
+        </template>
+      </q-input>
+    </div>
     <div v-if="imageCaptured" class="heading text-bold q-ml-md q-mb-md">
       Details of fish:
     </div>
@@ -112,9 +119,15 @@ export default {
       image2:
         "https://5.imimg.com/data5/RQ/IM/BK/SELLER-36867365/local-magur-2-500x500.jpg",
       imageSeaHorse: "https://a-z-animals.com/media/Seahorse-Hippocampus.jpg",
+      weight: "",
       name: "Catfish",
       regionalName: "मांगुर",
       speciesName: "Cybiosarda elegans",
+      options: [
+        "Kg",
+        "gm"
+      ],
+      type: "",
       imageCaptured: false,
       showDialog: false,
       showPromptDialog: false,
@@ -170,7 +183,7 @@ export default {
         that.imagesrc = event.target.result;
       };
       reader.readAsDataURL(file);
-      this.openDialog();
+      // this.openDialog();
     },
     disableCamera() {
       this.$refs.video.srcObject.getVideoTracks().forEach((track) => {
