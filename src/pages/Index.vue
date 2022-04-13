@@ -21,7 +21,7 @@
             </div>
             <div>
               <span class="text-bold">Weight</span>:
-              <span class="text-grey">{{ weight }} </span>
+              <span class="text-grey">{{ $route.params.weight }} </span>
             </div>
             <div>
               <span class="text-bold">Price</span>:

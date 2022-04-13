@@ -56,7 +56,7 @@
     <div v-if="imageCaptured" class="q-pa-md">
       <q-input outlined v-model="weight" label="Enter Estimated weight" type="number">
         <template v-slot:after>
-          <q-select v-model="type" :options="options" label="Standard" behavior="menu" />
+          <q-select v-model="type" :options="options" label="Unit" behavior="menu" />
         </template>
       </q-input>
     </div>
@@ -227,6 +227,7 @@ export default {
         params: {
           name: this.name,
           image: this.imagesrc,
+          weight: this.weight + " " + this.type
         },
       });
     },
