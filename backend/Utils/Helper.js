@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 function generateAuthPairs(payload, refreshPayload) {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve, _reject) => {
 		const jwtKey = process.env.JWT_KEY;
 		const refreshKey = process.env.REFRESH_KEY;
 		const authToken = jwt.sign(payload, jwtKey, {

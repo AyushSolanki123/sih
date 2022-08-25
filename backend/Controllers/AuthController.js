@@ -33,10 +33,11 @@ function registerUser(req, res, next) {
 					...(req.body.lastName && { lastName: req.body.lastName }),
 					password: response,
 					email: email,
+					...(req.body.role && { role: req.body.role }),
 				};
 				return UserService.addUser(_userBody);
 			})
-			.then((user) => {
+			.then(() => {
 				const authPayload = {
 					email: email,
 					password: password,
@@ -116,15 +117,15 @@ function loginUser(req, res, next) {
 					token: tokenPair,
 				});
 			})
-			.catch((error) => {
+			.catch((err) => {
 				logger.error(
 					"Failed while registering the user" +
-						JSON.stringify(error.message)
+						JSON.stringify(err.message)
 				);
 				next(
 					new ErrorBody(
-						error.statusCode || 500,
-						error.errorMessage || "Server error occurred"
+						err.statusCode || 500,
+						err.errorMessage || "Server error occurred"
 					)
 				);
 			});
