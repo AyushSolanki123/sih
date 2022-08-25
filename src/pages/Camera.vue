@@ -16,7 +16,6 @@
             ref="video"
             autoplay
           />
-          <!-- <q-img :src="image2" :ratio="1" /> -->
           <canvas
             class="full-width image"
             ref="canvas"
@@ -209,10 +208,9 @@ export default {
       createHistory(reqBody)
         .then((response) => {
           this.$router.push({
-            name: "Details",
+            name: "DetailActivity",
             params: {
-              imageUrl: this.imagesrc,
-              fish: response,
+              activity: response.data,
             },
           });
         })

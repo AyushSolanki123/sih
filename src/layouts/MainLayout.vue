@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { notify } from "src/functions/Notify";
 export default {
   name: "MainLayout",
   data() {
@@ -71,6 +72,7 @@ export default {
       localStorage.removeItem("authToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
+      notify("Success", "Logged Out");
       this.$router.push("/auth");
     },
   },

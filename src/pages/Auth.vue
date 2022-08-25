@@ -165,7 +165,6 @@ export default {
               response.data.token.refreshToken
             );
             const user = response.data.user;
-            console.log(user);
             localStorage.setItem("user", JSON.stringify(user));
             navigator.geolocation.getCurrentPosition(
               (position) => {
@@ -190,13 +189,7 @@ export default {
             console.log(userInfo);
             updateUser(userInfo)
               .then((response) => {
-                console.log(response);
-                notify({
-                  message: "Login Successfully",
-                  color: "positive",
-                  type: "positive",
-                  icon: "eva-checkmark-circle-outline",
-                });
+                notify("Success", response.message);
                 this.loading = false;
                 that.$router.push("/");
               })
@@ -204,12 +197,7 @@ export default {
                 console.log(error);
               });
           } else {
-            notify({
-              message: "Login failed",
-              color: "negative",
-              icon: "eva-close-circle-outline",
-              type: "negative",
-            });
+            notify("Failed", "Login Failed");
             this.loading = false;
             throw new Error("Login failed");
           }
@@ -217,12 +205,7 @@ export default {
         .catch((error) => {
           console.log(error);
           this.loading = false;
-          notify({
-            message: "You have entered invalid email or password",
-            color: "negative",
-            icon: "eva-close-circle-outline",
-            type: "negative",
-          });
+          notify("Failed", "Invalid email or password entered");
         });
     },
   },

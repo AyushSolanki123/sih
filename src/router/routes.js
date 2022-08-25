@@ -31,9 +31,9 @@ const routes = [
         component: () => import("pages/People.vue"),
       },
       {
-        name: "Details",
+        name: "DetailActivity",
         path: "/details",
-        component: () => import("pages/Index.vue"),
+        component: () => import("pages/DetailActivity.vue"),
       },
     ],
   },

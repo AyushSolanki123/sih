@@ -87,7 +87,6 @@ export default {
       } else {
         loginStatus(authToken)
           .then((status) => {
-            console.log(status);
             if (!status.status) {
               this.logOut();
               notify("Failed", "Session Expired, Please Login Successfully");

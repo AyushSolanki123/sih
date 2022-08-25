@@ -1,60 +1,105 @@
 <template>
   <q-page class="bg-grey-2 q-pa-md">
-    <q-card flat class="singleCard radius">
-      <q-card-section>
-        <q-img class="col-4 radius" :src="activity.imageUrl" />
+    <transition
+      appear
+      enter-active-class="animated slideInLeft"
+      leave-active-class="animated slideInRight"
+    >
+      <q-card flat class="singleCard radius">
+        <q-card-section>
+          <q-img class="col-4 radius" :src="activity.imageUrl" />
           <q-card-section class="col text-center">
-            <div class=""><span class="text-bold text-h4">{{ activity.fish.name }}</span> </div>
-            <div>
-              <div class=""><span class="text-bold">Species Name:-</span> {{ activity.fish.speciesName }}</div>
-              <div class="text-bold q-pt-md">
-                Regional Names:-
-              </div>
-              <div class="row">
-                <div v-for="key, nut in activity.fish.regionalNames" class="" :key="nut._id">
-                  <div class="">{{key}} |</div>
+            <div class="">
+              <span class="text-bold text-h4">{{ activity.fish.name }}</span>
+            </div>
+            <div class="text-subtitle1">
+              <div class="text-italic">{{ activity.fish.speciesName }}</div>
+              <div class="text-bold q-pt-md">Regional Names:</div>
+              <div class="row justify-evenly">
+                <div
+                  v-for="(key, nut) in activity.fish.regionalNames"
+                  :key="nut._id"
+                  class="col"
+                >
+                  <div class="">{{ key }}</div>
                 </div>
               </div>
-              <div class=""><span class="text-bold">Description:- </span>  {{ activity.fish.description }}</div>
-              <div class="q-mt-sm"><span class="text-bold">Edibile:-</span> {{ activity.fish.isEdible }}</div>
-              <div class=""><span class="text-bold">Price:-</span> {{ activity.fish.price }}</div>
-              <div class=""><span class="text-bold">Habitat:-</span> {{ activity.fish.habitat }}</div>
-              <div class="text-bold q-pt-md">Nutritional Values</div>
-              <div class="" v-for="key, nut in activity.fish.nutritionalValue" :key="nut._id">
-                <div><span class="col text-bold">{{nut}}:-</span> {{key}}</div>
+              <q-separator class="q-my-sm" />
+              <div class="">
+                {{ activity.fish.description }}
+              </div>
+              <q-separator class="q-my-sm" />
+
+              <div class="row">
+                <div class="col">
+                  <span class="text-bold">Edibile:-</span>
+                  {{ activity.fish.isEdible }}
+                </div>
+                <div class="col">
+                  <span class="text-bold">Price:-</span>
+                  {{ activity.fish.price }}
+                </div>
+              </div>
+              <div class="">
+                <span class="text-bold">Habitat:-</span>
+                {{ activity.fish.habitat }}
+              </div>
+              <q-separator class="q-my-sm" />
+
+              <div class="text-bold">Nutritional Values</div>
+              <div class="row">
+                <div class="col">
+                  <span class="text-weight-bold">Calories:</span>
+                  {{ activity.fish.nutritionalValue.calories }} g
+                </div>
+                <div class="col">
+                  <span class="text-weight-bold">Proteins:</span>
+                  {{ activity.fish.nutritionalValue.protein }} g
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span class="text-weight-bold">Fat:</span>
+                  {{ activity.fish.nutritionalValue.fat }} g
+                </div>
+                <div class="col">
+                  <span class="text-weight-bold">Carbs:</span>
+                  {{ activity.fish.nutritionalValue.carbs }} g
+                </div>
               </div>
             </div>
           </q-card-section>
         </q-card-section>
       </q-card>
+    </transition>
   </q-page>
 </template>
 
 <script>
-
 export default {
-    data(){
-        return{
-            activity: {},
-            user: {},
-            keys: [],
-        }
-    },
-    created(){
-        this.activity= this.$route.params.activity;
-        this.activity.fish.nutritionalValue = JSON.parse(JSON.parse(
-          this.activity.fish.nutritionalValue)
-        );
-        this.activity.fish.regionalNames = JSON.parse(
-          this.activity.fish.regionalNames
-        );
-        console.log(this.activity);
-        this.keys = Object.keys(this.activity);
-    }
-}
+  data() {
+    return {
+      activity: {},
+      user: {},
+      keys: [],
+    };
+  },
+  created() {
+    this.activity = this.$route.params.activity;
+    console.log(this.activity);
+    this.activity.fish.nutritionalValue = JSON.parse(
+      this.activity.fish.nutritionalValue
+    );
+    this.activity.fish.regionalNames = JSON.parse(
+      this.activity.fish.regionalNames
+    );
+    console.log(this.activity);
+    this.keys = Object.keys(this.activity);
+  },
+};
 </script>
 
 <style>
-.singleCard{
+.singleCard {
 }
 </style>
