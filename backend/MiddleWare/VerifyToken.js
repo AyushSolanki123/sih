@@ -1,7 +1,7 @@
 const ErrorBody = require("../Utils/ErrorBody");
 const { validateAuthToken } = require("../Utils/Helper");
 
-function verifyToken(req, res, next) {
+function verifyToken(req, _res, next) {
 	const _authToken = req.headers.authorization;
 	if (_authToken) {
 		validateAuthToken(_authToken)

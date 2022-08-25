@@ -19,9 +19,19 @@ const UserSchema = new Schema(
 			type: Schema.Types.String,
 			required: true,
 		},
-		mobile: {
-			type: Schema.Types.String,
+		latitude: {
+			type: Schema.Types.Number,
 			required: false,
+		},
+		longitude: {
+			type: Schema.Types.Number,
+			required: false,
+		},
+		role: {
+			type: Schema.Types.String,
+			enum: ["USER", "ADMIN"],
+			required: true,
+			default: "USER",
 		},
 	},
 	{
@@ -32,4 +42,5 @@ const UserSchema = new Schema(
 
 module.exports = {
 	model: mongoose.model("User", UserSchema),
+	schema: UserSchema,
 };
