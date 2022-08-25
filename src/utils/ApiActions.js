@@ -147,6 +147,25 @@ export function verifyOtp(data) {
 
 //Auth Api End
 
+//History Apis
+
+export function getHistory(userId) {
+    return new Promise(function (resolve, reject) {
+        apiActionWithToken({
+            method: 'GET',
+            url: env.baseUrl + env.listHistory.replace('{userId}', userId),
+        })
+            .then((response) => {
+                resolve(response)
+            })
+            .catch((error) => {
+                console.log(error)
+                reject(error)
+            })
+    })
+}
+
+
 
 
 

@@ -7,7 +7,9 @@ const env={
     status: '/auth/login/status',
     //Users
     getUser: '/users',
-    updateUser: '/user/'
+    updateUser: '/user/',
+    //history
+    listHistory: '/history/{userId}',
 }
 
 export default env;
