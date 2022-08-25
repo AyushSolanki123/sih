@@ -2,7 +2,7 @@
   "name": "sih",
   "version": "0.0.1",
   "description": "Application to get information about fishes by clicking their pictures",
-  "productName": "Fishery",
+  "productName": "AquaDeTec",
   "author": "AyushSolanki123 <ayush.solanki1981@gmail.com>",
   "private": true,
   "scripts": {
