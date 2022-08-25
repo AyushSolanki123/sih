@@ -7,7 +7,6 @@
 import { LocalStorage } from "quasar";
 import { updateUser } from "src/utils/ApiActions";
 import { logOutUser, loginStatus } from "./utils/ApiActions";
-import { post } from 'app/backend/Routes';
 export default {
   name: "App",
   data() {
@@ -33,7 +32,7 @@ export default {
               longitude: that.location.long,
               id: user._id,
             };
-            console.log(userInfo);
+            // console.log(userInfo);
             updateUser(userInfo)
               .then((response) => {
                 console.log(response);
@@ -52,12 +51,14 @@ export default {
       return new Promise(function (resolve, reject) {
         loginStatus(authToken)
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             if (response.response.data.status) {
               navigator.geolocation.getCurrentPosition(
               (position) => {
+                this.location.lat = position.coords.latitude;
+                this.location.long = position.coords.longitude;
+                console.log(position);
                 resolve({ response: position })
-                
               },
               this.locationError,
               {
@@ -66,6 +67,9 @@ export default {
               })
             }
             })
+            .catch((error) => {
+                console.log(error);
+              });
       })
             
     },

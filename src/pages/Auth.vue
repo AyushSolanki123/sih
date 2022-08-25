@@ -162,7 +162,7 @@ export default {
               response.response.data.token.refreshToken
             );
             LocalStorage.set("user", response.response.data.user);
-            console.log(response);
+            // console.log(response);
             navigator.geolocation.getCurrentPosition(
               (position) => {
                 this.location.lat = position.coords.latitude;
@@ -176,10 +176,14 @@ export default {
               }
             );
             var user = LocalStorage.getItem("user");
+            var lat = that.location.lat;
+            var long = that.location.long;
+              console.log(that.location)
+              console.log(lat, long)
             var userInfo = {
               id: user._id,
-              latitude: this.location.lat,
-              longitude: this.location.long,
+              latitude: lat,
+              longitude: long,
             };
             console.log(userInfo);
             updateUser(userInfo)
