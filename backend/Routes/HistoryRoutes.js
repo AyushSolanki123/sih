@@ -19,4 +19,8 @@ router.post(
 
 router.get("/:userId", verifyToken, historyController.listHistory);
 
+router.put("/:historyId", verifyToken, historyController.editHistory);
+
+router.delete("/:historyId", verifyToken, historyController.deleteHistory);
+
 module.exports = router;

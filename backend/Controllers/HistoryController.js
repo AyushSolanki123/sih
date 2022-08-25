@@ -40,7 +40,44 @@ function listHistory(req, res, next) {
 		});
 }
 
+function deleteHistory(req, res, next) {
+	const historyId = req.params.historyId;
+
+	HistoryService.deleteHistory(historyId)
+		.then((response) => {
+			res.status(200);
+			res.json({
+				message: "History deleted successfully",
+			});
+		})
+		.catch((error) => {
+			logger.error("Error while deleting history");
+			console.log(error);
+			next(new ErrorBody(500, "Internal Server Error"));
+		});
+}
+
+function editHistory(req, res, next) {
+	const historyId = req.params.historyId;
+
+	HistoryService.editHistory(historyId, req.body)
+		.then((response) => {
+			res.status(200);
+			res.json({
+				message: "History updated successfully",
+				data: response,
+			});
+		})
+		.catch((error) => {
+			logger.error("Error while deleting history");
+			console.log(error);
+			next(new ErrorBody(500, "Internal Server Error"));
+		});
+}
+
 module.exports = {
 	createHistory: createHistory,
 	listHistory: listHistory,
+	deleteHistory: deleteHistory,
+	editHistory: editHistory,
 };
