@@ -1,12 +1,14 @@
 <template>
   <q-page class="q-pa-md bg-grey-2">
+    <q-scroll-area style="height: 80vh; max-width: 100vw;">
+
     <div class="camera-frame q-pa-sm">
-      <!-- <video
+      <video
         v-show="!imageCaptured"
         class="full-width image"
         ref="video"
         autoplay
-      /> -->
+      />
       <!-- <q-img :src="image2" :ratio="1" /> -->
       <canvas
         class="full-width image"
@@ -16,15 +18,17 @@
       />
     </div>
 
-    <div class="q-pa-md">
-      <!-- <q-btn
+    <div class="text-center q-pa-md">
+      <q-btn
+        v-if="hasCameraSupport"
         @click="captureImage"
-        v-if="!imageCaptured"
-        color="black"
-        size="lg"
+        :disable="imageCaptured"
+        color="grey-10"
         icon="eva-camera"
         round
-      /> -->
+        class="q-mb-md"
+        size="lg"
+      />
       <q-file
         @input="captureImageFallBack"
         label="Choose an Image"
@@ -53,6 +57,9 @@
       </q-item> -->
     </div>
 
+    <!-- <div v-if="imageCaptured">
+      <InfoPage :name = "name" :imageCaptured="imageCaptured" :regionalName= "regionalName" :speciesName= "speciesName" :type= "type" :weight= "weight" />
+    </div> -->
     <div v-if="imageCaptured" class="q-pa-md">
       <q-input outlined v-model="weight" label="Enter Estimated weight" type="number">
         <template v-slot:after>
@@ -83,6 +90,7 @@
         </span>
       </div>
     </div>
+  </q-scroll-area>
     <div
       v-show="imageCaptured"
       class="row q-mt-lg fixed-bottom q-pa-md q-mx-md"
@@ -102,8 +110,9 @@
 <script>
 import { uid } from "quasar";
 import FeedbackDialog from "src/components/FeedbackDialog.vue";
+import InfoPage from "src/pages/InfoPage.vue";
 export default {
-  components: { FeedbackDialog },
+  components: { FeedbackDialog, InfoPage, InfoPage },
   name: "Camera",
   data() {
     return {
@@ -139,6 +148,7 @@ export default {
   },
   methods: {
     initCamera() {
+      console.log("Camera intiated");
       navigator.mediaDevices
         .getUserMedia({
           video: true,
@@ -154,14 +164,14 @@ export default {
       let video = this.$refs.video;
       let canvas = this.$refs.canvas;
 
-      //   canvas.width = video.getBoundingClientRect().width;
-      //   canvas.height = video.getBoundingClientRect().height;
-      //   let ctx = canvas.getContext("2d");
-      //   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.width = video.getBoundingClientRect().width;
+      canvas.height = video.getBoundingClientRect().height;
+      let ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       this.imageCaptured = true;
       this.showDialog = true;
-      //   this.post.photo = this.dataURItoBlob(canvas.toDataURL());
-      //   this.disableCamera();
+      this.post.photo = this.dataURItoBlob(canvas.toDataURL());
+      this.disableCamera();
     },
     captureImageFallBack(file) {
       console.log(file);
