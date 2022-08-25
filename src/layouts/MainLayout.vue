@@ -1,8 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white text-grey-10" bordered>
-      <q-toolbar class="q-px-md">
-        <q-toolbar-title class="text-bold">AquaDetec </q-toolbar-title>
+      <q-toolbar class="q-pa-md">
+        <q-toolbar-title class="text-bold">AquaDeTec </q-toolbar-title>
         <q-avatar color="grey" text-color="black">{{
           user.firstName[0]
         }}</q-avatar>
