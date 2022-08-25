@@ -4,16 +4,12 @@
       <div>Welcome to</div>
       <div class="text-bold text-h4">AquaDetec</div>
     </div>
-    <div class="flex flex-center card q-mt-xl">
-      <q-spinner-facebook
-        v-if="loading"
-        class="col q-mt-xl q-pt-xl"
-        size="10vh"
-      />
+    <div class="flex flex-center card q-mt-lg">
+      <q-spinner-facebook v-if="loading" size="10vh" />
       <div v-else>
         <q-card
           v-if="signin"
-          class="card q-pa-none q-ma-none shadow-24 q-mt-xl"
+          class="card q-pa-none q-ma-none shadow-24 q-mt-lg"
         >
           <q-card-section
             class="text-weight-bolder login-card-text text-center"
@@ -21,7 +17,7 @@
             User Login
           </q-card-section>
           <q-card-section>
-            <q-form class="q-gutter-md">
+            <q-form>
               <!-- LOGIN FORM START -->
               <div>
                 <div class="text-weight-bolder text-grey">Email</div>
@@ -88,7 +84,6 @@
 <script>
 import Registration from "src/components/Registration.vue";
 import { notify } from "src/functions/Notify";
-import { LocalStorage } from "quasar";
 import { registerUser, loginUser, updateUser } from "src/utils/ApiActions";
 
 export default {
@@ -114,12 +109,14 @@ export default {
       this.signin = !this.signin;
     },
     register(user) {
-      console.log(user);
       registerUser(user)
         .then((response) => {
-          LocalStorage.set("authToken", response.data.token.authToken);
-          LocalStorage.set("refreshToken", response.data.token.refreshToken);
-          LocalStorage.set("user", response.data.user);
+          localStorage.setItem("authToken", response.data.token.authToken);
+          localStorage.setItem(
+            "refreshToken",
+            response.data.token.refreshToken
+          );
+          localStorage.setItem("user", response.data.user);
           if ((response.message = "User Registered Successfully")) {
             notify({
               message: "Registration Success",
@@ -129,7 +126,6 @@ export default {
             });
             this.$router.push("/");
           }
-          // console.log(response);
         })
         .catch((error) => {
           notify({
@@ -148,21 +144,17 @@ export default {
         email: this.email,
         password: this.password,
       };
-      // console.log(login);
       loginUser(login)
         .then((response) => {
           if (response.loginDone) {
-            // console.log(response);
-            LocalStorage.set(
-              "authToken",
-              response.response.data.token.authToken
-            );
-            LocalStorage.set(
+            localStorage.setItem("authToken", response.data.token.authToken);
+            localStorage.setItem(
               "refreshToken",
-              response.response.data.token.refreshToken
+              response.data.token.refreshToken
             );
-            LocalStorage.set("user", response.response.data.user);
-            // console.log(response);
+            const user = response.data.user;
+            console.log(user);
+            localStorage.setItem("user", JSON.stringify(user));
             navigator.geolocation.getCurrentPosition(
               (position) => {
                 this.location.lat = position.coords.latitude;
@@ -175,13 +167,11 @@ export default {
                 maximumAge: 0,
               }
             );
-            var user = LocalStorage.getItem("user");
-            var lat = that.location.lat;
-            var long = that.location.long;
-              console.log(that.location)
-              console.log(lat, long)
-            var userInfo = {
-              id: user._id,
+
+            let lat = that.location.lat;
+            let long = that.location.long;
+            let userInfo = {
+              userId: user._id,
               latitude: lat,
               longitude: long,
             };
@@ -189,18 +179,18 @@ export default {
             updateUser(userInfo)
               .then((response) => {
                 console.log(response);
+                notify({
+                  message: "Login Successfully",
+                  color: "positive",
+                  type: "positive",
+                  icon: "eva-checkmark-circle-outline",
+                });
+                this.loading = false;
+                that.$router.push("/");
               })
               .catch((error) => {
                 console.log(error);
               });
-            notify({
-              message: "Login Successfully",
-              color: "positive",
-              type: "positive",
-              icon: "eva-checkmark-circle-outline",
-            });
-            this.loading = false;
-            that.$router.push("/");
           } else {
             notify({
               message: "Login failed",

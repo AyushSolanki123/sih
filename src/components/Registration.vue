@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <q-card class="regCard q-pa-none q-ma-none shadow-24 q-mt-xl">
+    <q-card class="regCard q-pa-none q-ma-none shadow-24 q-mt-lg">
       <q-card-section class="text-weight-bolder login-card-text text-center">
         User Registration
       </q-card-section>
@@ -147,15 +147,14 @@ export default {
         email: this.email,
         password: this.password,
       });
-      
     },
   },
   created() {
     console.log("Registration created");
     this.firstName = "";
-      this.lastName = "";
-      this.email = "";
-      this.password = "";
+    this.lastName = "";
+    this.email = "";
+    this.password = "";
   },
 };
 </script>

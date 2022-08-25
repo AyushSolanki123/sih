@@ -4,7 +4,6 @@
   </div>
 </template>
 <script>
-import { LocalStorage } from "quasar";
 import { updateUser } from "src/utils/ApiActions";
 import { logOutUser, loginStatus } from "./utils/ApiActions";
 export default {
@@ -18,63 +17,61 @@ export default {
     };
   },
   methods: {
-    async start() {
+    start() {
       let that = this;
-      let authToken = LocalStorage.getItem("authToken");
+      let authToken = localStorage.getItem("authToken");
       if (authToken != null || authToken != undefined) {
-          this.status().then(response=>{
-            this.location.lat = position.coords.latitude;
-            this.location.long = position.coords.longitude;
-            console.log(position);
-            var user = LocalStorage.getItem("user");
-            var userInfo = {
-              latitude: that.location.lat,
-              longitude: that.location.long,
-              id: user._id,
-            };
-            // console.log(userInfo);
-            updateUser(userInfo)
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          })
-      }
-      else{
+        this.status().then((location) => {
+          this.location.lat = location.lat;
+          this.location.long = location.long;
+          let user = JSON.parse(localStorage.getItem("user"));
+          let userInfo = {
+            latitude: that.location.lat,
+            longitude: that.location.long,
+            userId: user._id,
+          };
+          updateUser(userInfo)
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+      } else {
         this.$router.push("/auth");
       }
     },
-    status(){
-      let authToken = LocalStorage.getItem("authToken");
-      return new Promise(function (resolve, reject) {
+    status() {
+      let authToken = localStorage.getItem("authToken");
+      return new Promise(function (resolve, _reject) {
         loginStatus(authToken)
           .then((response) => {
-            // console.log(response);
-            if (response.response.data.status) {
+            if (response.data.status) {
               navigator.geolocation.getCurrentPosition(
-              (position) => {
-                this.location.lat = position.coords.latitude;
-                this.location.long = position.coords.longitude;
-                console.log(position);
-                resolve({ response: position })
-              },
-              this.locationError,
-              {
-                enableHighAccuracy: true,
-                maximumAge: 0,
-              })
+                (position) => {
+                  let location = {
+                    long: position.coords.longitude,
+                    lat: position.coords.latitude,
+                  };
+
+                  resolve(location);
+                },
+                this.locationError,
+                {
+                  enableHighAccuracy: true,
+                  maximumAge: 0,
+                }
+              );
             }
-            })
-            .catch((error) => {
-                console.log(error);
-              });
-      })
-            
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
     },
     logOut() {
-      logOutUser().then((response) => {
+      logOutUser().then((_response) => {
         this.$router.push("/auth");
         notify({
           message: "Session Expired! Please Login Again.",
@@ -83,9 +80,25 @@ export default {
         });
       });
     },
+    checkLoginStatus() {
+      const authToken = localStorage.getItem("authToken");
+      if (!authToken) {
+        this.$router.push("/auth");
+      } else {
+        loginStatus(authToken)
+          .then((status) => {
+            console.log(status);
+            if (!status.status) {
+              this.logOut();
+              notify("Failed", "Session Expired, Please Login Successfully");
+            }
+          })
+          .catch((err) => {});
+      }
+    },
   },
   created() {
-    this.start();
+    this.checkLoginStatus();
   },
 };
 </script>
