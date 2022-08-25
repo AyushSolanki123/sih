@@ -1,7 +1,7 @@
 <template>
     <q-page class="bg-grey-2 flex flex-center">
         <div class="q-pt-md text-center">
-          <q-card class="radius q-pa-md people">
+          <q-card class="radius q-pa-md people" @click="$router.push('/users')">
             <q-card-section horizontal>
               <div class="col-3">
                 <q-avatar>

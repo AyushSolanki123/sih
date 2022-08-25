@@ -165,7 +165,25 @@ export function getHistory(userId) {
     })
 }
 
-//
+// list admin users
+export function listAdminUsers() {
+    return new Promise(function (resolve, reject) {
+        apiActionWithToken({
+            method: 'GET',
+            url: env.baseUrl + env.listAdminUsers,
+        })
+            .then((response) => {
+                resolve(response)
+            })
+            .catch((error) => {
+                console.log(error)
+                reject(error)
+            }
+            )
+    }
+    )
+}
+
 
 
 

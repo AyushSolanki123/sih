@@ -10,16 +10,18 @@
               <div class="text-bold q-pt-md">
                 Regional Names:-
               </div>
-                <div v-for="key, nut in activity.fish.regionalNames" class="row justify-center" :key="nut._id">
-                  <div><span class="text-bold">{{nut}}:-</span> {{key}} |</div>
+              <div class="row">
+                <div v-for="key, nut in activity.fish.regionalNames" class="" :key="nut._id">
+                  <div class="">{{key}} |</div>
                 </div>
-              <!-- <div class="">Description {{ activity.fish.description }}</div> -->
+              </div>
+              <div class=""><span class="text-bold">Description:- </span>  {{ activity.fish.description }}</div>
               <div class="q-mt-sm"><span class="text-bold">Edibile:-</span> {{ activity.fish.isEdible }}</div>
               <div class=""><span class="text-bold">Price:-</span> {{ activity.fish.price }}</div>
               <div class=""><span class="text-bold">Habitat:-</span> {{ activity.fish.habitat }}</div>
               <div class="text-bold q-pt-md">Nutritional Values</div>
-              <div v-for="key, nut in activity.fish.nutritionalValue" :key="nut._id">
-                <div><span class="text-bold">{{nut}}:-</span> {{key}}</div>
+              <div class="" v-for="key, nut in activity.fish.nutritionalValue" :key="nut._id">
+                <div><span class="col text-bold">{{nut}}:-</span> {{key}}</div>
               </div>
             </div>
           </q-card-section>
@@ -29,6 +31,7 @@
 </template>
 
 <script>
+
 export default {
     data(){
         return{
@@ -39,6 +42,13 @@ export default {
     },
     created(){
         this.activity= this.$route.params.activity;
+        this.activity.fish.nutritionalValue = JSON.parse(JSON.parse(
+          this.activity.fish.nutritionalValue)
+        );
+        this.activity.fish.regionalNames = JSON.parse(
+          this.activity.fish.regionalNames
+        );
+        console.log(this.activity);
         this.keys = Object.keys(this.activity);
     }
 }

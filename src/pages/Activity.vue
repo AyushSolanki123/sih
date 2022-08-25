@@ -11,13 +11,13 @@
             <q-img class="q-ma-sm col-4 radius" style="width: 35vw" :src="activity.imageUrl" />
             <q-card-section class="col text-center">
               <div>
-                <!-- <div class="text-weight-bold ">
+                <div class="text-weight-bold ">
                   {{ activity.fish.name }}
                 </div>
                 <div class="">
                   Species Name: {{ activity.fish.speciesName }}
                 </div>
-                <div class="">Price: {{ activity.fish.price }}</div> -->
+                <div class="">Price: {{ activity.fish.price }}</div>
               </div>
             </q-card-section>
           </q-card-section>
@@ -54,7 +54,7 @@ export default {
         .then((response) => {
           console.log(response);
           this.activities = response.data.data;
-          this.parse();
+          // this.parse();
           this.loading = false;
         })
         .catch((error) => {
@@ -62,18 +62,7 @@ export default {
           this.loading = false;
         });
     },
-    parse() {
-      // console.log(this.activities);
-      for (let val in this.activities) {
-        // console.log(this.activities[val]);
-        this.activities[val].fish.nutritionalValue = JSON.parse(
-          this.activities[val].fish.nutritionalValue
-        );
-        this.activities[val].fish.regionalNames = JSON.parse(
-          this.activities[val].fish.regionalNames
-        );
-      }
-    },
+   
     showDetailedView(activity) {
       this.$router.push({
         name: "DetailActivity",

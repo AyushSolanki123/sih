@@ -6,7 +6,7 @@ const env={
     refreshToken: '/auth/refreshToken',
     status: '/auth/login/status',
     //Users
-    getUser: '/user',
+    listAdminUsers: '/user',
     updateUser: '/user/',
     //history
     listHistory: '/history/{userId}',
