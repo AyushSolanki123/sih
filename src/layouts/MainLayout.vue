@@ -22,7 +22,7 @@
         indicator-color="transparent"
       >
         <q-route-tab to="/" icon="eva-home-outline" />
-        <q-route-tab to="/activity" icon="eva-cube-outline" />
+        <q-route-tab to="/activity" style="q-pa-none" icon="mdi-history" />
         <q-route-tab to="/settings" icon="eva-settings-outline" />
         <q-route-tab v-if="isAdmin" to="/people" icon="eva-people-outline" />
       </q-tabs>

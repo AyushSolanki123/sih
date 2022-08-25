@@ -27,11 +27,35 @@ export function loginUser(login) {
     })
 }
 
+export function loginStatus(authToken) {
+    return new Promise(function (resolve, reject) {
+        apiActionWithToken({
+            method: 'POST',
+            url: env.baseUrl + env.status,
+            data: {authToken: authToken}
+        })
+            .then((response) => {
+                if (response) {
+                    resolve({ response: response })
+                }
+                else {
+                    console.log(error);
+                    reject({  error: error })
+                }
+            })
+            .catch((error) => {
+                reject(error)
+            })
+    }
+    )
+}
+
+
 export function logOutUser(){
     return new Promise(function (resolve, reject) {
         localStorage.removeItem("authToken");
         localStorage.removeItem("refreshToken");
-        localStorage.removeItem("userId");
+        localStorage.removeItem("user");
         resolve()
     })
 }
@@ -57,7 +81,7 @@ export function updateUser(userInfo) {
     return new Promise(function (resolve, reject) {
         apiActionWithToken({
             method: 'PUT',
-            url: env.baseUrl + env.updateUser.replace('{userId}', LocalStorage.getItem("userId")),
+            url: env.baseUrl + env.updateUser,
             data: userInfo
         })
             .then((response) => {

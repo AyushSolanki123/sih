@@ -49,12 +49,12 @@
                     <q-icon name="eva-lock-outline" />
                   </template>
                   <template v-slot:append>
-                        <q-icon
-                            :name="isPwd ? 'visibility_off' : 'visibility'"
-                            class="cursor-pointer"
-                            @click="isPwd = !isPwd"
-                        />
-                    </template>
+                    <q-icon
+                      :name="isPwd ? 'visibility_off' : 'visibility'"
+                      class="cursor-pointer"
+                      @click="isPwd = !isPwd"
+                    />
+                  </template>
                 </q-input>
               </div>
               <div class="row justify-between q-pa-md">
@@ -89,7 +89,7 @@
 import Registration from "src/components/Registration.vue";
 import { notify } from "src/functions/Notify";
 import { LocalStorage } from "quasar";
-import { registerUser, loginUser } from "src/utils/ApiActions";
+import { registerUser, loginUser, updateUser } from "src/utils/ApiActions";
 
 export default {
   components: {
@@ -103,6 +103,10 @@ export default {
       signin: true,
       loading: false,
       isPwd: true,
+      location: {
+        lat: 0,
+        long: 0,
+      },
     };
   },
   methods: {
@@ -110,77 +114,110 @@ export default {
       this.signin = !this.signin;
     },
     register(user) {
-    console.log(user);
+      console.log(user);
       registerUser(user)
-          .then((response) => {
-            LocalStorage.set('authToken', response.data.token.authToken);
-            LocalStorage.set('refreshToken', response.data.token.refreshToken);
-            LocalStorage.set('user', response.data.user);
-            if ((response.message = "User Registered Successfully")) {
-              notify({
-                message: "Registration Success",
-                color: "positive",
-                type: "positive",
-                icon: "eva-checkmark-circle-outline",
-              });
-              this.$router.push("/")
-            }
-            // console.log(response);
-          })
-          .catch((error) => {
+        .then((response) => {
+          LocalStorage.set("authToken", response.data.token.authToken);
+          LocalStorage.set("refreshToken", response.data.token.refreshToken);
+          LocalStorage.set("user", response.data.user);
+          if ((response.message = "User Registered Successfully")) {
             notify({
+              message: "Registration Success",
+              color: "positive",
+              type: "positive",
+              icon: "eva-checkmark-circle-outline",
+            });
+            this.$router.push("/");
+          }
+          // console.log(response);
+        })
+        .catch((error) => {
+          notify({
             message: "User already exists!",
             color: "negative",
             icon: "eva-close-circle-outline",
             type: "negative",
           });
-            console.log(error);
-          });
+          console.log(error);
+        });
     },
     login() {
       this.loading = true;
-      let that = this
+      let that = this;
       let login = {
-          email: this.email,
-          password: this.password,
-      }
+        email: this.email,
+        password: this.password,
+      };
       // console.log(login);
       loginUser(login)
         .then((response) => {
-                if (response.loginDone){
-                    LocalStorage.set('user', response.response.data.user);
-                    console.log(response);
-                  notify({
-                    message: "Login Successfully",
-                    color: "positive",
-                    type: "positive",
-                    icon: "eva-checkmark-circle-outline",
-                  })
-                this.loading = false;
-                  that.$router.push("/");
-                }
-                else{
-                  notify({
-                    message: "Login failed",
-                    color: "negative",
-                    icon: "eva-close-circle-outline",
-                    type: "negative",
-                  })
-                this.loading = false;
-                  throw new Error("Login failed")
-                }
-            })         
-            .catch((error) => {
+          if (response.loginDone) {
+            // console.log(response);
+            LocalStorage.set(
+              "authToken",
+              response.response.data.token.authToken
+            );
+            LocalStorage.set(
+              "refreshToken",
+              response.response.data.token.refreshToken
+            );
+            LocalStorage.set("user", response.response.data.user);
+            console.log(response);
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                this.location.lat = position.coords.latitude;
+                this.location.long = position.coords.longitude;
+                console.log(position);
+              },
+              this.locationError,
+              {
+                enableHighAccuracy: true,
+                maximumAge: 0,
+              }
+            );
+            var user = LocalStorage.getItem("user");
+            var userInfo = {
+              id: user._id,
+              latitude: this.location.lat,
+              longitude: this.location.long,
+            };
+            console.log(userInfo);
+            updateUser(userInfo)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
                 console.log(error);
-                this.loading = false;
-                notify({
-                    message: "You have entered invalid email or password",
-                    color: "negative",
-                    icon: "eva-close-circle-outline",
-                    type: "negative",
-                  })
-            })
-      
+              });
+            notify({
+              message: "Login Successfully",
+              color: "positive",
+              type: "positive",
+              icon: "eva-checkmark-circle-outline",
+            });
+            this.loading = false;
+            that.$router.push("/");
+          } else {
+            notify({
+              message: "Login failed",
+              color: "negative",
+              icon: "eva-close-circle-outline",
+              type: "negative",
+            });
+            this.loading = false;
+            throw new Error("Login failed");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loading = false;
+          notify({
+            message: "You have entered invalid email or password",
+            color: "negative",
+            icon: "eva-close-circle-outline",
+            type: "negative",
+          });
+        });
     },
   },
 };

@@ -1,6 +1,12 @@
 <template>
   <q-page class="q-pa-md bg-grey-2">
-    <q-scroll-area style="height: 85vh; max-width: 100vw">
+    <div v-if="loading" class="q-mt-xl q-pt-xl flex flex-center">
+      <q-spinner-box
+          color="primary"
+          size="80vw"
+        />
+    </div>
+    <q-scroll-area v-else style="height: 85vh; max-width: 100vw">
       <div class="camera-frame q-pa-sm">
         <video
           v-show="!imageCaptured"
@@ -75,29 +81,7 @@
           </template>
         </q-input>
       </div>
-      <div v-if="imageCaptured" class="heading text-bold q-ml-md q-mb-md">
-        Details of fish:
-      </div>
-      <div v-if="imageCaptured" class="q-ml-md text">
-        <div class="text-bold">
-          Name:
-          <span class="text-weight-regular q-ml-xs">
-            {{ name }}
-          </span>
-        </div>
-        <div class="text-bold">
-          Species Name:
-          <span class="text-weight-regular q-ml-xs">
-            {{ speciesName }}
-          </span>
-        </div>
-        <div class="text-bold">
-          Regional Name:
-          <span class="text-weight-regular q-ml-xs">
-            {{ regionalName }}
-          </span>
-        </div>
-      </div>
+      
       <div v-show="imageCaptured" class="row q-pa-md q-mx-md">
         <q-btn
           no-caps
@@ -105,7 +89,7 @@
           class="btn"
           icon-right="eva-arrow-forward-outline"
           color="primary"
-          label="More Details"
+          label="Upload"
         />
       </div>
     </q-scroll-area>
@@ -116,6 +100,8 @@
 import { uid } from "quasar";
 import FeedbackDialog from "src/components/FeedbackDialog.vue";
 import InfoPage from "src/pages/InfoPage.vue";
+import { LocalStorage } from "quasar";
+import { updateUser } from "src/utils/ApiActions";
 export default {
   components: { FeedbackDialog, InfoPage, InfoPage },
   name: "Camera",
@@ -146,6 +132,20 @@ export default {
       imagesrc: "",
       hasCameraSupport: true,
       feedbackFishName: "",
+      loading: false,
+      location: {
+        lat: 0,
+        lng: 0,
+      },
+      location1: {
+        lat: 0,
+        lng: 0,
+      },
+      location2: {
+        lat: 0,
+        lng: 0,
+      },
+      
     };
   },
   methods: {
@@ -175,6 +175,7 @@ export default {
       var uri = canvas.toDataURL();
       this.post.photo = this.dataURItoBlob(uri);
       // console.log(uri);
+      this.imagesrc = uri;
       this.disableCamera();
     },
     captureImageFallBack(file) {
@@ -318,9 +319,13 @@ export default {
           this.showPromptDialog = false;
         });
     },
+    getFishData(){
+      this.loading = false;
+    }
   },
   mounted() {
     this.initCamera();
+    
   },
   beforeDestroy() {
     if (this.hasCameraSupport) {

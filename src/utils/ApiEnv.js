@@ -4,8 +4,10 @@ const env={
     login: '/auth/login',
     register: '/auth/register',
     refreshToken: '/auth/refreshToken',
+    status: '/auth/login/status',
     //Users
     getUser: '/users',
+    updateUser: '/user/'
 }
 
 export default env;
