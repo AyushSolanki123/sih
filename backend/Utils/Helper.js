@@ -5,7 +5,7 @@ function generateAuthPairs(payload, refreshPayload) {
 		const jwtKey = process.env.JWT_KEY;
 		const refreshKey = process.env.REFRESH_KEY;
 		const authToken = jwt.sign(payload, jwtKey, {
-			expiresIn: process.env.JWT_EXPIRES,
+			expiresIn: process.env.AUTH_TOKEN_VALIDITY,
 		});
 		const refreshToken = jwt.sign(refreshPayload, refreshKey);
 		resolve({
