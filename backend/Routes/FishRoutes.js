@@ -20,6 +20,8 @@ router.post(
 	fishController.createFish
 );
 
+router.post("/create/all", fishController.createFishes);
+
 router.get("/:fishId", verifyToken, fishController.getFishById);
 
 router.post(

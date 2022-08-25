@@ -1,0 +1,10 @@
+Species,Calories,Carbohydrates,Fat,Protein,Nutrients
+Salmon,155,0,6.9g,21.6g,"{'Cal':'155','Pro':'21.6g','Fat':'6.9g'}"
+Crab,74,0,0.9g ,15.4g,"{'Cal':'74','Pro':'15.4g','Fat':'0.9g'}"
+Lobster,129,0,1.3g,27.6g,"{'Cal':'129','Pro':'15.4g','Fat':'1.3g'}"
+Tuna,142,0,1.6g,32.1g,"{'Cal':'142','Pro':'32.1g','Fat':'1.6g'}"
+Snapper,109,0,1.5g,22.4g,"{'Cal':'109','Pro':'22.4g','Fat':'1.5g'}"
+Halibut,111,0,1.6g,22.5g,"{'Cal':'111','Pro':'22.5g','Fat':'1.6g'}"
+Mussels,146,0,3.8g,20.2g,"{'Cal':'146','Pro':'20.2g','Fat':'3.8g'}"
+Octopus,139,0,1.8g,25.4g,"{'Cal':'139','Pro':'25.4g','Fat':'1.8g'}"
+Shrimp,72,0,0.5g,18.0g,"{'Cal':'72','Pro':'18.0g','Fat':'0.5g'}"

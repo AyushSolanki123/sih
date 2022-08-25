@@ -2,6 +2,7 @@ const FishService = require("../Services/FishService");
 const { validationResult } = require("express-validator");
 const ErrorBody = require("../Utils/ErrorBody");
 const { logger } = require("../Utils/Logger");
+const ReadFishDataset = require("../Utils/ReadFishDataset");
 
 function createFish(req, res, next) {
 	const { errors } = validationResult(req);
@@ -79,9 +80,23 @@ function listFeedback(_req, res, next) {
 		});
 }
 
+function createFishes(_req, res, next) {
+	FishService.createFishes()
+		.then((response) => {
+			res.status(200);
+			res.json({ data: response });
+		})
+		.catch((error) => {
+			logger.error("Error while listing feedback");
+			console.log(error);
+			next(new ErrorBody(500, "Internal Server Error"));
+		});
+}
+
 module.exports = {
 	createFish: createFish,
 	getFishById: getFishById,
 	createFeedback: createFeedback,
 	listFeedback: listFeedback,
+	createFishes: createFishes,
 };

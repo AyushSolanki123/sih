@@ -13,11 +13,11 @@ const FishSchema = new Schema(
 		},
 		price: {
 			type: Schema.Types.String,
-			required: true,
+			required: false,
 		},
 		habitat: {
 			type: Schema.Types.String,
-			required: true,
+			required: false,
 		},
 		nutritionalValue: {
 			type: Schema.Types.String,
@@ -26,11 +26,12 @@ const FishSchema = new Schema(
 		},
 		regionalNames: {
 			type: Schema.Types.String,
-			required: true,
+			required: false,
 		},
 		isEdible: {
 			type: Schema.Types.Boolean,
 			required: true,
+			default: true,
 		},
 		isDeleted: {
 			type: Schema.Types.Boolean,
