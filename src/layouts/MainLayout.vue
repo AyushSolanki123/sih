@@ -3,19 +3,43 @@
     <q-header class="bg-white text-grey-10" bordered>
       <q-toolbar class="q-pa-md">
         <q-toolbar-title class="text-bold">AquaDeTec </q-toolbar-title>
-        <q-avatar color="grey" text-color="black">{{
-          user.firstName[0]
-        }}</q-avatar>
+        <div>
+          <q-btn-dropdown no-caps unelevated>
+            <template v-slot:label>
+              <div class="row items-center no-wrap q-ma-none">
+                <q-avatar color="grey" text-color="black">
+                  {{ user.firstName[0] }}</q-avatar
+                >
+              </div>
+            </template>
+            <transition
+              appear
+              enter-active-class="animated backInDown"
+              leave-active-class="animated backOutUp"
+            >
+              <q-list separator>
+                <!-- Signout -->
+                <q-item clickable v-close-popup @click="logOut">
+                  <q-item-section>
+                    <q-icon
+                      name="logout"
+                      color="blue-grey"
+                      text-color="white"
+                      size="4vh"
+                    />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>Signout</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </transition>
+          </q-btn-dropdown>
+        </div>
       </q-toolbar>
     </q-header>
 
     <q-footer class="bg-white" bordered>
-      <transition
-        appear
-        enter-active-class="animated fadeInDown"
-        leave-active-class="animated fadeOut"
-      >
-      </transition>
       <q-tabs
         class="text-grey-10"
         active-color="primary"
@@ -23,7 +47,6 @@
       >
         <q-route-tab to="/" icon="eva-home-outline" />
         <q-route-tab to="/camera" style="q-pa-none" icon="eva-camera-outline" />
-        <q-route-tab to="/settings" icon="eva-settings-outline" />
         <q-route-tab v-if="isAdmin" to="/people" icon="eva-people-outline" />
       </q-tabs>
     </q-footer>
@@ -43,7 +66,14 @@ export default {
       user: {},
     };
   },
-  methods: {},
+  methods: {
+    logOut() {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+      this.$router.push("/auth");
+    },
+  },
   created() {
     this.user = JSON.parse(localStorage.getItem("user"));
     if (this.user.role !== "USER") {

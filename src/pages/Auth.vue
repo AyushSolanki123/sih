@@ -1,83 +1,95 @@
 <template>
   <q-page class="q-pa-md bg-grey-2 column">
-    <div class="q-mt-md text-center text-h5">
-      <div>Welcome to</div>
-      <div class="text-bold text-h4">AquaDetec</div>
-    </div>
-    <div class="flex flex-center card q-mt-lg">
-      <q-spinner-facebook v-if="loading" size="10vh" />
-      <div v-else>
-        <q-card
-          v-if="signin"
-          class="card q-pa-none q-ma-none shadow-24 q-mt-lg"
-        >
-          <q-card-section
-            class="text-weight-bolder login-card-text text-center"
-          >
-            User Login
-          </q-card-section>
-          <q-card-section>
-            <q-form>
-              <!-- LOGIN FORM START -->
-              <div>
-                <div class="text-weight-bolder text-grey">Email</div>
-                <q-input
-                  dense
-                  class="q-ma-none q-ml-md"
-                  v-model.trim="email"
-                  lazy-rules
-                  placeholder="Enter Email"
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="eva-person-outline" />
-                  </template>
-                </q-input>
-                <div class="text-weight-bolder text-grey">Password</div>
-                <q-input
-                  dense
-                  class="q-ma-none q-ml-md"
-                  v-model.trim="password"
-                  lazy-rules
-                  placeholder="Password"
-                  :type="isPwd ? 'password' : 'text'"
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="eva-lock-outline" />
-                  </template>
-                  <template v-slot:append>
-                    <q-icon
-                      :name="isPwd ? 'visibility_off' : 'visibility'"
-                      class="cursor-pointer"
-                      @click="isPwd = !isPwd"
+    <transition
+      appear
+      enter-active-class="animated slideInDown"
+      leave-active-class="animated slideOutDown"
+    >
+      <div>
+        <div class="q-mt-md text-center text-h5">
+          <div>Welcome to</div>
+          <div class="text-bold text-h4">AquaDetec</div>
+        </div>
+        <div class="flex flex-center card q-mt-lg">
+          <q-spinner-facebook v-if="loading" size="10vh" />
+          <div v-else>
+            <q-card
+              v-if="signin"
+              class="card q-pa-none q-ma-none shadow-24 q-mt-lg"
+            >
+              <q-card-section
+                class="text-weight-bolder login-card-text text-center"
+              >
+                User Login
+              </q-card-section>
+              <q-card-section>
+                <q-form>
+                  <!-- LOGIN FORM START -->
+                  <div>
+                    <div class="text-weight-bolder text-grey">Email</div>
+                    <q-input
+                      dense
+                      class="q-ma-none q-ml-md"
+                      v-model.trim="email"
+                      lazy-rules
+                      placeholder="Enter Email"
+                    >
+                      <template v-slot:prepend>
+                        <q-icon name="eva-person-outline" />
+                      </template>
+                    </q-input>
+                    <div class="text-weight-bolder text-grey">Password</div>
+                    <q-input
+                      dense
+                      class="q-ma-none q-ml-md"
+                      v-model.trim="password"
+                      lazy-rules
+                      placeholder="Password"
+                      :type="isPwd ? 'password' : 'text'"
+                    >
+                      <template v-slot:prepend>
+                        <q-icon name="eva-lock-outline" />
+                      </template>
+                      <template v-slot:append>
+                        <q-icon
+                          :name="isPwd ? 'visibility_off' : 'visibility'"
+                          class="cursor-pointer"
+                          @click="isPwd = !isPwd"
+                        />
+                      </template>
+                    </q-input>
+                  </div>
+                  <div class="row justify-between q-pa-md">
+                    <q-btn
+                      flat
+                      dense
+                      no-caps
+                      label="Register"
+                      color="primary"
+                      @click="changeSignin()"
                     />
-                  </template>
-                </q-input>
-              </div>
-              <div class="row justify-between q-pa-md">
-                <q-btn
-                  flat
-                  dense
-                  no-caps
-                  label="Register"
-                  color="primary"
-                  @click="changeSignin()"
-                />
-                <q-btn
-                  flat
-                  dense
-                  no-caps
-                  label="Login"
-                  color="primary"
-                  @click="login()"
-                />
-              </div>
-            </q-form>
-          </q-card-section>
-          <!-- LOGIN FORM END  -->
-        </q-card>
-        <Registration v-else @register="register" @change="changeSignin()" />
+                    <q-btn
+                      flat
+                      dense
+                      no-caps
+                      label="Login"
+                      color="primary"
+                      @click="login()"
+                    />
+                  </div>
+                </q-form>
+              </q-card-section>
+              <!-- LOGIN FORM END  -->
+            </q-card>
+            <Registration
+              v-else
+              @register="register"
+              @change="changeSignin()"
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </transition>
   </q-page>
 </template>
 
