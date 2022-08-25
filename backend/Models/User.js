@@ -19,6 +19,14 @@ const UserSchema = new Schema(
 			type: Schema.Types.String,
 			required: true,
 		},
+		latitude: {
+			type: Schema.Types.Number,
+			required: false,
+		},
+		longitude: {
+			type: Schema.Types.Number,
+			required: false,
+		},
 		role: {
 			type: Schema.Types.String,
 			enum: ["USER", "ADMIN"],
