@@ -1,109 +1,83 @@
 <template>
   <q-page class="q-pa-md bg-grey-2">
-    <div class="camera-frame q-pa-sm">
-      <!-- <video
-        v-show="!imageCaptured"
-        class="full-width image"
-        ref="video"
-        autoplay
-      /> -->
-      <!-- <q-img :src="image2" :ratio="1" /> -->
-      <canvas
-        class="full-width image"
-        ref="canvas"
-        height="350"
-        v-show="imageCaptured"
-      />
+    <div v-if="loading" class="q-mt-xl q-pt-xl flex flex-center">
+      <q-spinner-box color="primary" size="80vw" />
     </div>
-
-    <div class="q-pa-md">
-      <!-- <q-btn
-        @click="captureImage"
-        v-if="!imageCaptured"
-        color="black"
-        size="lg"
-        icon="eva-camera"
-        round
-      /> -->
-      <q-file
-        @input="captureImageFallBack"
-        label="Choose an Image"
-        v-model="imageUpload"
-        accept="image/*"
-        outlined
-      >
-        <template v-slot:prepend>
-          <q-icon name="eva-attach-outline" />
-        </template>
-      </q-file>
-      <!-- <q-item class="q-my-sm feedback full-width" v-if="imageCaptured">
-        <q-item-section avatar>
-          <q-avatar color="primary" text-color="white">
-            <q-img :src="imagesrc" />
-          </q-avatar>
-        </q-item-section>
-
-        <q-item-section>
-          <q-item-label class="text-bold">Feedback</q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-btn flat dense round icon="eva-close-outline" color="black" />
-        </q-item-section>
-      </q-item> -->
-    </div>
-
-    <div v-if="imageCaptured" class="q-pa-md">
-      <q-input outlined v-model="weight" label="Enter Estimated weight" type="number">
-        <template v-slot:after>
-          <q-select v-model="type" :options="options" label="Unit" behavior="menu" />
-        </template>
-      </q-input>
-    </div>
-    <div v-if="imageCaptured" class="heading text-bold q-ml-md q-mb-md">
-      Details of fish:
-    </div>
-    <div v-if="imageCaptured" class="q-ml-md text">
-      <div class="text-bold">
-        Name:
-        <span class="text-weight-regular q-ml-xs">
-          {{ name }}
-        </span>
+    <q-scroll-area v-else style="height: 85vh; max-width: 100vw">
+      <div class="camera-frame q-pa-sm">
+        <video
+          v-show="!imageCaptured"
+          class="full-width image"
+          ref="video"
+          autoplay
+        />
+        <!-- <q-img :src="image2" :ratio="1" /> -->
+        <canvas
+          class="full-width image"
+          ref="canvas"
+          height="350"
+          v-show="imageCaptured"
+        />
       </div>
-      <div class="text-bold">
-        Species Name:
-        <span class="text-weight-regular q-ml-xs">
-          {{ speciesName }}
-        </span>
+
+      <div class="text-center q-pa-md">
+        <q-btn
+          v-if="hasCameraSupport"
+          @click="captureImage"
+          :disable="imageCaptured"
+          color="grey-10"
+          icon="eva-camera"
+          round
+          class="q-mb-md"
+          size="lg"
+        />
+        <q-file
+          @input="captureImageFallBack"
+          label="Choose an Image"
+          v-model="imageUpload"
+          accept="image/*"
+          outlined
+        >
+          <template v-slot:prepend>
+            <q-icon name="eva-attach-outline" />
+          </template>
+        </q-file>
       </div>
-      <div class="text-bold">
-        Regional Name:
-        <span class="text-weight-regular q-ml-xs">
-          {{ regionalName }}
-        </span>
+
+      <div v-if="imageCaptured" class="q-pa-md">
+        <q-input outlined v-model="weight" label="Enter Estimated weight">
+          <template v-slot:after>
+            <q-select
+              v-model="type"
+              :options="options"
+              label="Unit"
+              behavior="menu"
+            />
+          </template>
+        </q-input>
       </div>
-    </div>
-    <div
-      v-show="imageCaptured"
-      class="row q-mt-lg fixed-bottom q-pa-md q-mx-md"
-    >
-      <q-btn
-        no-caps
-        @click="addPost"
-        class="btn"
-        icon-right="eva-arrow-forward-outline"
-        color="primary"
-        label="More Details"
-      />
-    </div>
+
+      <div v-show="imageCaptured" class="row q-pa-md q-mx-md">
+        <q-btn
+          no-caps
+          @click="addPost"
+          class="btn"
+          icon-right="eva-arrow-forward-outline"
+          color="primary"
+          label="Upload"
+        />
+      </div>
+    </q-scroll-area>
   </q-page>
 </template>
 
 <script>
 import { uid } from "quasar";
 import FeedbackDialog from "src/components/FeedbackDialog.vue";
+import InfoPage from "src/pages/InfoPage.vue";
+import { updateUser, createHistory } from "src/utils/ApiActions";
 export default {
-  components: { FeedbackDialog },
+  components: { FeedbackDialog, InfoPage },
   name: "Camera",
   data() {
     return {
@@ -112,29 +86,26 @@ export default {
         photo: null,
         date: Date.now(),
       },
-      image:
-        "http://d1iraxgbwuhpbw.cloudfront.net/images/thumbnails/jpg/tn_ththy_ug.jpg",
-      image1:
-        "https://files.worldwildlife.org/wwfcmsprod/images/Atlantic_bluefin_tuna_253467_Tuna_Species/hero_small/925cryk2za_Bluefin_tuna_253467.jpg",
-      image2:
-        "https://5.imimg.com/data5/RQ/IM/BK/SELLER-36867365/local-magur-2-500x500.jpg",
-      imageSeaHorse: "https://a-z-animals.com/media/Seahorse-Hippocampus.jpg",
-      weight: "",
-      name: "Catfish",
-      regionalName: "मांगुर",
-      speciesName: "Cybiosarda elegans",
-      options: [
-        "Kg",
-        "gm"
-      ],
-      type: "",
       imageCaptured: false,
-      showDialog: false,
-      showPromptDialog: false,
       imageUpload: [],
       imagesrc: "",
+      weight: "",
+      options: ["kg", "gm"],
+      type: "",
       hasCameraSupport: true,
-      feedbackFishName: "",
+      loading: false,
+      location: {
+        lat: 0,
+        lng: 0,
+      },
+      location1: {
+        lat: 0,
+        lng: 0,
+      },
+      location2: {
+        lat: 0,
+        lng: 0,
+      },
     };
   },
   methods: {
@@ -154,22 +125,24 @@ export default {
       let video = this.$refs.video;
       let canvas = this.$refs.canvas;
 
-      //   canvas.width = video.getBoundingClientRect().width;
-      //   canvas.height = video.getBoundingClientRect().height;
-      //   let ctx = canvas.getContext("2d");
-      //   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.width = video.getBoundingClientRect().width;
+      canvas.height = video.getBoundingClientRect().height;
+      let ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       this.imageCaptured = true;
       this.showDialog = true;
-      //   this.post.photo = this.dataURItoBlob(canvas.toDataURL());
-      //   this.disableCamera();
+      var uri = canvas.toDataURL();
+      this.post.photo = this.dataURItoBlob(uri);
+      // console.log(uri);
+      this.imagesrc = uri;
+      this.disableCamera();
     },
     captureImageFallBack(file) {
-      console.log(file);
       let that = this;
       this.post.photo = file;
       let canvas = this.$refs.canvas;
       let ctx = canvas.getContext("2d");
-      var reader = new FileReader();
+      let reader = new FileReader();
       reader.onload = (event) => {
         var img = new Image();
         img.onload = () => {
@@ -183,7 +156,6 @@ export default {
         that.imagesrc = event.target.result;
       };
       reader.readAsDataURL(file);
-      // this.openDialog();
     },
     disableCamera() {
       this.$refs.video.srcObject.getVideoTracks().forEach((track) => {
@@ -211,6 +183,7 @@ export default {
 
       // write the ArrayBuffer to a blob, and you're done
       var blob = new Blob([ab], { type: mimeString });
+      // console.log("Blob:",blob);
       return blob;
     },
     locationError() {
@@ -221,86 +194,28 @@ export default {
       this.locationLoading = false;
     },
     addPost() {
-      console.log(this.post);
-      this.$router.push({
-        name: "Details",
-        params: {
-          name: this.name,
-          image: this.imagesrc,
-          weight: this.weight + " " + this.type
-        },
-      });
-    },
-    openDialog() {
-      this.$q
-        .dialog({
-          title: "Send Feedback",
-          message: "Is the fish Correct?",
-          position: "bottom",
-          style: {
-            fontSize: '18px',
-            borderRadius: '18px 18px 0px 0px',
-          },
-          persistent: true,
-          ok: {
-            push: true,
-            flat: true,
-            label: "Yes",
-            noCaps: true,
-          },
-          cancel: {
-            push: true,
-            flat: true,
-            noCaps: true,
-            color: "negative",
-            label: "No",
-          },
+      const user = JSON.parse(localStorage.getItem("user"));
+      const reqBody = {
+        user: user._id,
+        fish: "630749e047b8cbad37cd1944",
+        imageUrl: this.imagesrc,
+      };
+      createHistory(reqBody)
+        .then((response) => {
+          this.$router.push({
+            name: "Details",
+            params: {
+              imageUrl: this.imagesrc,
+              fish: response,
+            },
+          });
         })
-        .onOk(() => {
-          this.showDialog = false;
-        })
-        .onCancel(() => {
-          this.showDialog = false;
-          this.openPromptDialog()
-        })
-    },
-    openPromptDialog() {
-      this.$q
-        .dialog({
-          title: "Send Feedback",
-          message: "Enter correct fish name",
-          position: "bottom",
-          persistent: true,
-          style: {
-            fontSize: '18px',
-            borderRadius: '18px 18px 0px 0px',
-          },
-          ok: {
-            push: true,
-            flat: true,
-            label: "Ok",
-            noCaps: true,
-          },
-          cancel: {
-            push: true,
-            flat: true,
-            noCaps: true,
-            color: "negative",
-            label: "Cancel",
-          },
-          prompt: {
-            model: this.feedbackFishName,
-            type: "text",
-            label: "Name",
-            outlined: true,
-          },
-        })
-        .onOk(() => {
-          this.showPromptDialog = false;
-        })
-        .onCancel(() => {
-          this.showPromptDialog = false;
+        .catch((error) => {
+          console.log(error);
         });
+    },
+    getFishData() {
+      this.loading = false;
     },
   },
   mounted() {
