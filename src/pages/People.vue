@@ -1,21 +1,30 @@
 <template>
-    <div>
-        <div class="q-pt-md">
-          <div class="text-primary text-bold text-h6 q-ml-lg">Users</div>
-            <q-scroll-area class="peopleScroll">
-              <div v-if="!loading">
-              <div v-for="student in students" :key="student._id">
-                <peopleCard :student="student" :teacher="isTeacher" />
+    <q-page class="bg-grey-2 flex flex-center">
+        <div class="q-pt-md text-center">
+          <q-card class="radius q-pa-md people">
+            <q-card-section horizontal>
+              <div class="col-3">
+                <q-avatar>
+                  <img src="Profile.jpg">
+                </q-avatar>
               </div>
+              <div class="text-h6 text-bold text-center q-pt-sm col-6">Users</div>
+              <q-btn flat icon="eva-arrow-ios-forward-outline"/>
+            </q-card-section>
+          </q-card>
+          <q-card class="radius q-mt-lg q-pa-md people">
+            <q-card-section horizontal>
+              <div class="col-3">
+                <q-avatar>
+                  <img src="Profile.jpg">
+                </q-avatar>
               </div>
-              <div v-else>
-                <div v-for="i in 5" :key="i">
-                  <PeopleCardSkeleton/>
-                </div>
-              </div>
-            </q-scroll-area>
+              <div class="text-h6 text-bold text-center q-pt-sm col-6">FeedBack</div>
+              <q-btn flat icon="eva-arrow-ios-forward-outline"/>
+            </q-card-section>
+          </q-card>
         </div>
-    </div>
+    </q-page>
 </template>
 
 <script>
@@ -35,5 +44,8 @@ export default {
 </script>
 
 <style>
-
+.people{
+  width: 70vw;
+  height: 10vh;
+}
 </style>

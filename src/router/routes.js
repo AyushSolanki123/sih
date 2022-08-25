@@ -16,6 +16,7 @@ const routes = [
       { name: 'Settings' ,path: '/settings', component: () => import('pages/Settings.vue') },
       { name: 'People' ,path: '/people', component: () => import('pages/People.vue') },
       { name: 'Details' ,path: '/details', component: () => import('pages/Index.vue') },
+      { name: 'DetailActivity' ,path: '/detailsActivity', component: () => import('pages/DetailActivity.vue') },
     ]
   },
 
