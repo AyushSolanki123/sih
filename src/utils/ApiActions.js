@@ -141,8 +141,6 @@ export function verifyOtp(data) {
 
 //Auth Api End
 
-// History Apis
-
 export function createHistory(reqBody) {
   return new Promise(function (resolve, reject) {
     apiActionWithToken({
