@@ -4,7 +4,9 @@ const User = require("../Models/User").model;
 const PasswordResetToken = require("../Models/PasswordResetToken").model;
 
 function listUsers() {
-	return User.find({}).sort({ updatedAt: -1 }).select("-password");
+	return User.find({ role: "ADMIN" })
+		.sort({ updatedAt: -1 })
+		.select("-password");
 }
 
 function getUserByEmail(email) {

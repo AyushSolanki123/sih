@@ -16,6 +16,7 @@ function registerUser(req, res, next) {
 		next(new ErrorBody(400, "Invalid values in the form"));
 	} else {
 		const { firstName, password, email } = req.body;
+		let user;
 		UserService.getUserByEmail(email)
 			.then((userResponse) => {
 				if (userResponse) {
@@ -37,7 +38,8 @@ function registerUser(req, res, next) {
 				};
 				return UserService.addUser(_userBody);
 			})
-			.then(() => {
+			.then((response) => {
+				user = response;
 				const authPayload = {
 					email: email,
 					password: password,
@@ -55,6 +57,7 @@ function registerUser(req, res, next) {
 				res.json({
 					message: "Registration Successful",
 					tokenPair: tokenPair,
+					user: user,
 				});
 			})
 			.catch((error) => {
@@ -79,9 +82,11 @@ function loginUser(req, res, next) {
 		next(new ErrorBody(400, "Invalid values in the form"));
 	} else {
 		const { email, password } = req.body;
+		let _user;
 		UserService.getUserByEmail(email)
 			.then((user) => {
 				if (user) {
+					_user = user;
 					return bcrypt.compare(password, user.password);
 				} else {
 					throw new ErrorBody(
@@ -115,6 +120,7 @@ function loginUser(req, res, next) {
 				res.json({
 					message: "Login Successful",
 					token: tokenPair,
+					user: _user,
 				});
 			})
 			.catch((err) => {

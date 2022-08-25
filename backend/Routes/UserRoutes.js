@@ -8,8 +8,4 @@ const { verifyToken } = require("../MiddleWare/VerifyToken");
 
 router.get("/", verifyToken, userController.listUsers);
 
-router.get("/:userId", verifyToken, userController.getUserDetails);
-
-router.put("/:userId", verifyToken, userController.updateUserDetails);
-
 module.exports = router;
