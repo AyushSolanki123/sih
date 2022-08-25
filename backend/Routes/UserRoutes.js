@@ -11,25 +11,25 @@ router.get("/", verifyToken, userController.listUsers);
 router.get("/:userId", verifyToken, userController.getUserDetails);
 
 router.post(
-	"/register",
-	[
-		body("firstName").notEmpty(),
-		body("email").isEmail(),
-		body("password").notEmpty(),
-	],
-	userController.registerUser
+  "/register",
+  [
+    body("firstName").notEmpty(),
+    body("email").isEmail(),
+    body("password").notEmpty(),
+  ],
+  userController.registerUser
 );
 
 router.post(
-	"/login",
-	[body("email").isEmail(), body("password").notEmpty()],
-	userController.loginUser
+  "/login",
+  [body("email").isEmail(), body("password").notEmpty()],
+  userController.loginUser
 );
 
 router.post(
-	"/refreshToken",
-	[body("refreshToken").notEmpty()],
-	userController.refreshToken
+  "/refreshToken",
+  [body("refreshToken").notEmpty()],
+  userController.refreshToken
 );
 
 router.put("/:userId", verifyToken, userController.updateUserDetails);
