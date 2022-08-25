@@ -141,6 +141,8 @@ export function verifyOtp(data) {
 
 //Auth Api End
 
+//History Apis
+
 export function createHistory(reqBody) {
   return new Promise(function (resolve, reject) {
     apiActionWithToken({
@@ -152,6 +154,22 @@ export function createHistory(reqBody) {
         resolve(response.data);
       })
       .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export function getHistory(userId) {
+  return new Promise(function (resolve, reject) {
+    apiActionWithToken({
+      method: "GET",
+      url: env.baseUrl + env.listHistory.replace("{userId}", userId),
+    })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        console.log(error);
         reject(error);
       });
   });
