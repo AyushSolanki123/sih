@@ -202,7 +202,7 @@ export default {
       const user = JSON.parse(localStorage.getItem("user"));
       const reqBody = {
         user: user._id,
-        fish: "630749e047b8cbad37cd1944",
+        fish: "6307db31f8933d62c14703f4",
         imageUrl: this.imagesrc,
       };
       createHistory(reqBody)

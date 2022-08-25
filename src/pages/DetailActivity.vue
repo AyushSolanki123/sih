@@ -86,14 +86,12 @@ export default {
   },
   created() {
     this.activity = this.$route.params.activity;
-    console.log(this.activity);
     this.activity.fish.nutritionalValue = JSON.parse(
       this.activity.fish.nutritionalValue
     );
     this.activity.fish.regionalNames = JSON.parse(
       this.activity.fish.regionalNames
     );
-    console.log(this.activity);
     this.keys = Object.keys(this.activity);
   },
 };

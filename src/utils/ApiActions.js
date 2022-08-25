@@ -191,7 +191,7 @@ function apiActionWithToken(options) {
         })
         .catch((error) => {
           console.log("ereor", error);
-          if (error?.response?.status === 401) {
+          if (error.response.status === 401) {
             refreshJWT(refreshToken)
               .then(() => {
                 apiActionWithToken(options);
@@ -220,8 +220,6 @@ function refreshJWT(refreshToken) {
         if (apiResponse.status >= 200 && apiResponse.status <= 209) {
           console.log(apiResponse);
           localStorage.setItem("authToken", apiResponse.data.authToken);
-          // localStorage.setItem('refreshToken', refreshToken);
-          // localStorage.setItem('userId', apiResponse.data.user._id);
           resolve();
         } else {
           reject("Unable to refresh the token at the moment");
