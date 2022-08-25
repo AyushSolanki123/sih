@@ -42,8 +42,8 @@ function updateUserDetails(req, res, next) {
 		logger.error("Error in register: ", errors);
 		next(new ErrorBody(400, "Invalid values in the form"));
 	} else {
-		const { id, ...reqBody } = req.body;
-		UserService.updateUser(id, reqBody)
+		const { userId, ...reqBody } = req.body;
+		UserService.updateUser(userId, reqBody)
 			.then((updateResponse) => {
 				logger.log(
 					`User ${updateResponse.firstName} ${updateResponse.lastName} updated successfully`
