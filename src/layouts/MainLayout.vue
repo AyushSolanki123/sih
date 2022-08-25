@@ -1,11 +1,14 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white text-grey-10" bordered>
-      <q-toolbar class="q-pa-none">
-        <q-toolbar-title class="text-center text-bold">AquaDetec </q-toolbar-title>
+      <q-toolbar class="q-px-md">
+        <q-toolbar-title class="text-bold"
+          >AquaDetec
+        </q-toolbar-title>
+      <q-avatar color="grey" text-color="black">{{user.firstName[0]}}</q-avatar>
       </q-toolbar>
     </q-header>
-<!-- 
+
     <q-footer class="bg-white" bordered>
       <transition
         appear
@@ -19,9 +22,11 @@
         indicator-color="transparent"
       >
         <q-route-tab to="/" icon="eva-home-outline" />
-        <q-route-tab to="/camera" icon="eva-camera-outline" />
+        <q-route-tab to="/activity" icon="eva-cube-outline" />
+        <q-route-tab to="/settings" icon="eva-settings-outline" />
+        <q-route-tab v-if="isAdmin" to="/people" icon="eva-people-outline" />
       </q-tabs>
-    </q-footer> -->
+    </q-footer>
 
     <q-page-container>
       <router-view />
@@ -30,10 +35,23 @@
 </template>
 
 <script>
+import { LocalStorage } from 'quasar';
 export default {
   name: "MainLayout",
   data() {
-    return {};
+    return {
+      isAdmin: true,
+      user: {}
+    };
+  },
+  methods:{
+
+  },
+  created(){
+    this.user = LocalStorage.getItem("user")
+    if(this.user.role!=="USER"){
+      this.isAdmin = true;
+    }
   },
 };
 </script>

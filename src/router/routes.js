@@ -12,6 +12,9 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { name: 'Camera', path: '/', component: () => import('pages/Camera.vue') },
+      { name: 'Activity' ,path: '/activity', component: () => import('pages/Activity.vue') },
+      { name: 'Settings' ,path: '/settings', component: () => import('pages/Settings.vue') },
+      { name: 'People' ,path: '/people', component: () => import('pages/People.vue') },
       { name: 'Details' ,path: '/details', component: () => import('pages/Index.vue') },
     ]
   },

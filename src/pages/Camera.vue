@@ -1,46 +1,45 @@
 <template>
   <q-page class="q-pa-md bg-grey-2">
-    <q-scroll-area style="height: 80vh; max-width: 100vw;">
+    <q-scroll-area style="height: 85vh; max-width: 100vw">
+      <div class="camera-frame q-pa-sm">
+        <video
+          v-show="!imageCaptured"
+          class="full-width image"
+          ref="video"
+          autoplay
+        />
+        <!-- <q-img :src="image2" :ratio="1" /> -->
+        <canvas
+          class="full-width image"
+          ref="canvas"
+          height="350"
+          v-show="imageCaptured"
+        />
+      </div>
 
-    <div class="camera-frame q-pa-sm">
-      <video
-        v-show="!imageCaptured"
-        class="full-width image"
-        ref="video"
-        autoplay
-      />
-      <!-- <q-img :src="image2" :ratio="1" /> -->
-      <canvas
-        class="full-width image"
-        ref="canvas"
-        height="350"
-        v-show="imageCaptured"
-      />
-    </div>
-
-    <div class="text-center q-pa-md">
-      <q-btn
-        v-if="hasCameraSupport"
-        @click="captureImage"
-        :disable="imageCaptured"
-        color="grey-10"
-        icon="eva-camera"
-        round
-        class="q-mb-md"
-        size="lg"
-      />
-      <q-file
-        @input="captureImageFallBack"
-        label="Choose an Image"
-        v-model="imageUpload"
-        accept="image/*"
-        outlined
-      >
-        <template v-slot:prepend>
-          <q-icon name="eva-attach-outline" />
-        </template>
-      </q-file>
-      <!-- <q-item class="q-my-sm feedback full-width" v-if="imageCaptured">
+      <div class="text-center q-pa-md">
+        <q-btn
+          v-if="hasCameraSupport"
+          @click="captureImage"
+          :disable="imageCaptured"
+          color="grey-10"
+          icon="eva-camera"
+          round
+          class="q-mb-md"
+          size="lg"
+        />
+        <q-file
+          @input="captureImageFallBack"
+          label="Choose an Image"
+          v-model="imageUpload"
+          accept="image/*"
+          outlined
+        >
+          <template v-slot:prepend>
+            <q-icon name="eva-attach-outline" />
+          </template>
+        </q-file>
+        <!-- <q-item class="q-my-sm feedback full-width" v-if="imageCaptured">
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">
             <q-img :src="imagesrc" />
@@ -55,55 +54,61 @@
           <q-btn flat dense round icon="eva-close-outline" color="black" />
         </q-item-section>
       </q-item> -->
-    </div>
+      </div>
 
-    <!-- <div v-if="imageCaptured">
+      <!-- <div v-if="imageCaptured">
       <InfoPage :name = "name" :imageCaptured="imageCaptured" :regionalName= "regionalName" :speciesName= "speciesName" :type= "type" :weight= "weight" />
     </div> -->
-    <div v-if="imageCaptured" class="q-pa-md">
-      <q-input outlined v-model="weight" label="Enter Estimated weight" type="number">
-        <template v-slot:after>
-          <q-select v-model="type" :options="options" label="Unit" behavior="menu" />
-        </template>
-      </q-input>
-    </div>
-    <div v-if="imageCaptured" class="heading text-bold q-ml-md q-mb-md">
-      Details of fish:
-    </div>
-    <div v-if="imageCaptured" class="q-ml-md text">
-      <div class="text-bold">
-        Name:
-        <span class="text-weight-regular q-ml-xs">
-          {{ name }}
-        </span>
+      <div v-if="imageCaptured" class="q-pa-md">
+        <q-input
+          outlined
+          v-model="weight"
+          label="Enter Estimated weight"
+        >
+          <template v-slot:after>
+            <q-select
+              v-model="type"
+              :options="options"
+              label="Unit"
+              behavior="menu"
+            />
+          </template>
+        </q-input>
       </div>
-      <div class="text-bold">
-        Species Name:
-        <span class="text-weight-regular q-ml-xs">
-          {{ speciesName }}
-        </span>
+      <div v-if="imageCaptured" class="heading text-bold q-ml-md q-mb-md">
+        Details of fish:
       </div>
-      <div class="text-bold">
-        Regional Name:
-        <span class="text-weight-regular q-ml-xs">
-          {{ regionalName }}
-        </span>
+      <div v-if="imageCaptured" class="q-ml-md text">
+        <div class="text-bold">
+          Name:
+          <span class="text-weight-regular q-ml-xs">
+            {{ name }}
+          </span>
+        </div>
+        <div class="text-bold">
+          Species Name:
+          <span class="text-weight-regular q-ml-xs">
+            {{ speciesName }}
+          </span>
+        </div>
+        <div class="text-bold">
+          Regional Name:
+          <span class="text-weight-regular q-ml-xs">
+            {{ regionalName }}
+          </span>
+        </div>
       </div>
-    </div>
-  </q-scroll-area>
-    <div
-      v-show="imageCaptured"
-      class="row q-mt-lg fixed-bottom q-pa-md q-mx-md"
-    >
-      <q-btn
-        no-caps
-        @click="addPost"
-        class="btn"
-        icon-right="eva-arrow-forward-outline"
-        color="primary"
-        label="More Details"
-      />
-    </div>
+      <div v-show="imageCaptured" class="row q-pa-md q-mx-md">
+        <q-btn
+          no-caps
+          @click="addPost"
+          class="btn"
+          icon-right="eva-arrow-forward-outline"
+          color="primary"
+          label="More Details"
+        />
+      </div>
+    </q-scroll-area>
   </q-page>
 </template>
 
@@ -132,10 +137,7 @@ export default {
       name: "Catfish",
       regionalName: "मांगुर",
       speciesName: "Cybiosarda elegans",
-      options: [
-        "Kg",
-        "gm"
-      ],
+      options: ["Kg", "gm"],
       type: "",
       imageCaptured: false,
       showDialog: false,
@@ -148,7 +150,7 @@ export default {
   },
   methods: {
     initCamera() {
-      console.log("Camera intiated");
+      // console.log("Camera intiated");
       navigator.mediaDevices
         .getUserMedia({
           video: true,
@@ -170,7 +172,9 @@ export default {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       this.imageCaptured = true;
       this.showDialog = true;
-      this.post.photo = this.dataURItoBlob(canvas.toDataURL());
+      var uri = canvas.toDataURL();
+      this.post.photo = this.dataURItoBlob(uri);
+      // console.log(uri);
       this.disableCamera();
     },
     captureImageFallBack(file) {
@@ -191,6 +195,7 @@ export default {
         };
         img.src = event.target.result;
         that.imagesrc = event.target.result;
+        // console.log(that.imagesrc);
       };
       reader.readAsDataURL(file);
       // this.openDialog();
@@ -221,6 +226,7 @@ export default {
 
       // write the ArrayBuffer to a blob, and you're done
       var blob = new Blob([ab], { type: mimeString });
+      // console.log("Blob:",blob);
       return blob;
     },
     locationError() {
@@ -237,7 +243,7 @@ export default {
         params: {
           name: this.name,
           image: this.imagesrc,
-          weight: this.weight + " " + this.type
+          weight: this.weight + " " + this.type,
         },
       });
     },
@@ -248,8 +254,8 @@ export default {
           message: "Is the fish Correct?",
           position: "bottom",
           style: {
-            fontSize: '18px',
-            borderRadius: '18px 18px 0px 0px',
+            fontSize: "18px",
+            borderRadius: "18px 18px 0px 0px",
           },
           persistent: true,
           ok: {
@@ -271,8 +277,8 @@ export default {
         })
         .onCancel(() => {
           this.showDialog = false;
-          this.openPromptDialog()
-        })
+          this.openPromptDialog();
+        });
     },
     openPromptDialog() {
       this.$q
@@ -282,8 +288,8 @@ export default {
           position: "bottom",
           persistent: true,
           style: {
-            fontSize: '18px',
-            borderRadius: '18px 18px 0px 0px',
+            fontSize: "18px",
+            borderRadius: "18px 18px 0px 0px",
           },
           ok: {
             push: true,
