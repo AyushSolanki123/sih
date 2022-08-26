@@ -31,9 +31,19 @@ const routes = [
         component: () => import("pages/People.vue"),
       },
       {
-        name: "Details",
+        name: "DetailActivity",
         path: "/details",
-        component: () => import("pages/Index.vue"),
+        component: () => import("pages/DetailActivity.vue"),
+      },
+      {
+        name: "Users",
+        path: "/users",
+        component: () => import("pages/Users.vue"),
+      },
+      {
+        name: "Feedback",
+        path: "/feed",
+        component: () => import("pages/Feedback.vue"),
       },
     ],
   },

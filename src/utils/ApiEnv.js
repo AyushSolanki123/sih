@@ -13,6 +13,9 @@ const env = {
   listHistory: "/history/{userId}",
   editHistory: "/history/{historyId}",
   deleteHistory: "/history/{historyId}",
+  //feedback
+  listFeedback: "/fish/feedback/list",
+  createFeedback: "/fish/feedback/create",
 };
 
 export default env;

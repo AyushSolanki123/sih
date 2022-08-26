@@ -6,6 +6,7 @@
 <script>
 import { updateUser } from "src/utils/ApiActions";
 import { logOutUser, loginStatus } from "./utils/ApiActions";
+import { notify } from "./functions/Notify";
 export default {
   name: "App",
   data() {
@@ -73,11 +74,7 @@ export default {
     logOut() {
       logOutUser().then((_response) => {
         this.$router.push("/auth");
-        notify({
-          message: "Session Expired! Please Login Again.",
-          color: "warning",
-          type: "warning",
-        });
+        notify("Failed", "Session Expired! Please Login Again.");
       });
     },
     checkLoginStatus() {
@@ -87,7 +84,6 @@ export default {
       } else {
         loginStatus(authToken)
           .then((status) => {
-            console.log(status);
             if (!status.status) {
               this.logOut();
               notify("Failed", "Session Expired, Please Login Successfully");

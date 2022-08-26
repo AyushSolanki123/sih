@@ -141,12 +141,98 @@ export function verifyOtp(data) {
 
 //Auth Api End
 
+//History Apis
+
 export function createHistory(reqBody) {
   return new Promise(function (resolve, reject) {
     apiActionWithToken({
       method: "POST",
       url: env.baseUrl + env.createHistory,
       data: reqBody,
+    })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export function getHistory(userId) {
+  return new Promise(function (resolve, reject) {
+    apiActionWithToken({
+      method: "GET",
+      url: env.baseUrl + env.listHistory.replace("{userId}", userId),
+    })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
+//user api start
+export function listAdminUsers() {
+  return new Promise(function (resolve, reject) {
+    apiActionWithToken({
+      method: "GET",
+      url: env.baseUrl + env.getUser,
+    })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
+//feedback
+
+export function listFeedback() {
+  return new Promise(function (resolve, reject) {
+    apiActionWithToken({
+      method: "GET",
+      url: env.baseUrl + env.listFeedback,
+    })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
+export function createFeedback(data) {
+  return new Promise(function (resolve, reject) {
+    apiActionWithToken({
+      method: "POST",
+      url: env.baseUrl + env.createFeedback,
+      data: data,
+    })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
+export function getFishByModel(baseUrl) {
+  return new Promise((resolve, reject) => {
+    axios({
+      method: "POST",
+      url: "http://localhost:5000/predict",
+      data: { Base_64: baseUrl },
     })
       .then((response) => {
         resolve(response.data);
@@ -173,7 +259,7 @@ function apiActionWithToken(options) {
         })
         .catch((error) => {
           console.log("ereor", error);
-          if (error?.response?.status === 401) {
+          if (error.response.status === 401) {
             refreshJWT(refreshToken)
               .then(() => {
                 apiActionWithToken(options);
@@ -202,8 +288,6 @@ function refreshJWT(refreshToken) {
         if (apiResponse.status >= 200 && apiResponse.status <= 209) {
           console.log(apiResponse);
           localStorage.setItem("authToken", apiResponse.data.authToken);
-          // localStorage.setItem('refreshToken', refreshToken);
-          // localStorage.setItem('userId', apiResponse.data.user._id);
           resolve();
         } else {
           reject("Unable to refresh the token at the moment");

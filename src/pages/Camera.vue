@@ -1,81 +1,90 @@
 <template>
   <q-page class="q-pa-md bg-grey-2">
-    <div v-if="loading" class="q-mt-xl q-pt-xl flex flex-center">
-      <q-spinner-box color="primary" size="80vw" />
-    </div>
-    <q-scroll-area v-else style="height: 85vh; max-width: 100vw">
-      <div class="camera-frame q-pa-sm">
-        <video
-          v-show="!imageCaptured"
-          class="full-width image"
-          ref="video"
-          autoplay
-        />
-        <!-- <q-img :src="image2" :ratio="1" /> -->
-        <canvas
-          class="full-width image"
-          ref="canvas"
-          height="350"
-          v-show="imageCaptured"
-        />
+    <transition
+      appear
+      enter-active-class="animated slideInDown"
+      leave-active-class="animated slideOutDown"
+    >
+      <div v-if="loading" class="q-mt-xl q-pt-xl flex flex-center">
+        <q-spinner-box color="primary" size="80vw" />
       </div>
+      <q-scroll-area v-else style="height: 85vh; max-width: 100vw">
+        <div class="camera-frame q-pa-sm">
+          <video
+            v-show="!imageCaptured"
+            class="full-width image"
+            ref="video"
+            autoplay
+          />
+          <canvas
+            class="full-width image"
+            ref="canvas"
+            height="350"
+            v-show="imageCaptured"
+          />
+        </div>
 
-      <div class="text-center q-pa-md">
-        <q-btn
-          v-if="hasCameraSupport"
-          @click="captureImage"
-          :disable="imageCaptured"
-          color="grey-10"
-          icon="eva-camera"
-          round
-          class="q-mb-md"
-          size="lg"
-        />
-        <q-file
-          @input="captureImageFallBack"
-          label="Choose an Image"
-          v-model="imageUpload"
-          accept="image/*"
-          outlined
-        >
-          <template v-slot:prepend>
-            <q-icon name="eva-attach-outline" />
-          </template>
-        </q-file>
-      </div>
+        <div class="text-center q-pa-md">
+          <q-btn
+            v-if="hasCameraSupport"
+            @click="captureImage"
+            :disable="imageCaptured"
+            color="grey-10"
+            icon="eva-camera"
+            round
+            class="q-mb-md"
+            size="lg"
+          />
+          <q-file
+            @input="captureImageFallBack"
+            label="Choose an Image"
+            v-model="imageUpload"
+            accept="image/*"
+            outlined
+          >
+            <template v-slot:prepend>
+              <q-icon name="eva-attach-outline" />
+            </template>
+          </q-file>
+        </div>
 
-      <div v-if="imageCaptured" class="q-pa-md">
-        <q-input outlined v-model="weight" label="Enter Estimated weight">
-          <template v-slot:after>
-            <q-select
-              v-model="type"
-              :options="options"
-              label="Unit"
-              behavior="menu"
-            />
-          </template>
-        </q-input>
-      </div>
+        <div v-if="imageCaptured" class="q-pa-md">
+          <q-input outlined v-model="weight" label="Enter Estimated weight">
+            <template v-slot:after>
+              <q-select
+                v-model="type"
+                :options="options"
+                label="Unit"
+                behavior="menu"
+              />
+            </template>
+          </q-input>
+        </div>
 
-      <div v-show="imageCaptured" class="row q-pa-md q-mx-md">
-        <q-btn
-          no-caps
-          @click="addPost"
-          class="btn"
-          icon-right="eva-arrow-forward-outline"
-          color="primary"
-          label="Upload"
-        />
-      </div>
-    </q-scroll-area>
+        <div v-show="imageCaptured" class="row q-pa-md q-mx-md">
+          <q-btn
+            no-caps
+            @click="addPost"
+            class="btn"
+            icon-right="eva-arrow-forward-outline"
+            color="primary"
+            label="Upload"
+          />
+        </div>
+      </q-scroll-area>
+    </transition>
   </q-page>
 </template>
 
 <script>
-import { uid } from "quasar";
+import { uid, Loading } from "quasar";
 import FeedbackDialog from "src/components/FeedbackDialog.vue";
 import InfoPage from "src/pages/InfoPage.vue";
-import { updateUser, createHistory } from "src/utils/ApiActions";
+import {
+  updateUser,
+  createHistory,
+  getFishByModel,
+} from "src/utils/ApiActions";
 export default {
   components: { FeedbackDialog, InfoPage },
   name: "Camera",
@@ -117,7 +126,7 @@ export default {
         .then((stream) => {
           this.$refs.video.srcObject = stream;
         })
-        .catch((error) => {
+        .catch((_error) => {
           this.hasCameraSupport = false;
         });
     },
@@ -195,30 +204,35 @@ export default {
     },
     addPost() {
       const user = JSON.parse(localStorage.getItem("user"));
-      const reqBody = {
-        user: user._id,
-        fish: "630749e047b8cbad37cd1944",
-        imageUrl: this.imagesrc,
-      };
-      createHistory(reqBody)
+      Loading.show();
+      getFishByModel(this.imagesrc)
+        .then((response) => {
+          const reqBody = {
+            user: user._id,
+            fish: response._id["$oid"],
+            imageUrl: this.imagesrc,
+          };
+          return createHistory(reqBody);
+        })
         .then((response) => {
           this.$router.push({
-            name: "Details",
+            name: "DetailActivity",
             params: {
-              imageUrl: this.imagesrc,
-              fish: response,
+              activity: response.data,
             },
           });
+          Loading.hide();
         })
         .catch((error) => {
           console.log(error);
+          Loading.hide();
         });
     },
     getFishData() {
       this.loading = false;
     },
   },
-  mounted() {
+  created() {
     this.initCamera();
   },
   beforeDestroy() {
