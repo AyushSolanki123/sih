@@ -48,19 +48,6 @@
           </q-file>
         </div>
 
-        <div v-if="imageCaptured" class="q-pa-md">
-          <q-input outlined v-model="weight" label="Enter Estimated weight">
-            <template v-slot:after>
-              <q-select
-                v-model="type"
-                :options="options"
-                label="Unit"
-                behavior="menu"
-              />
-            </template>
-          </q-input>
-        </div>
-
         <div v-show="imageCaptured" class="row q-pa-md q-mx-md">
           <q-btn
             no-caps
@@ -78,6 +65,7 @@
 
 <script>
 import { uid, Loading } from "quasar";
+import { resizeBase64ForMaxHeight } from "resize-base64";
 import FeedbackDialog from "src/components/FeedbackDialog.vue";
 import InfoPage from "src/pages/InfoPage.vue";
 import {
@@ -130,6 +118,24 @@ export default {
           this.hasCameraSupport = false;
         });
     },
+    createThumbnail(image) {
+      return new Promise((resolve, reject) => {
+        const that = this;
+        resizeBase64ForMaxHeight(
+          image,
+          256,
+          256,
+          (img) => {
+            console.log("inside", img);
+            that.imagesrc = img;
+            resolve(img);
+          },
+          (err) => {
+            reject(err);
+          }
+        );
+      });
+    },
     captureImage() {
       let video = this.$refs.video;
       let canvas = this.$refs.canvas;
@@ -140,9 +146,9 @@ export default {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       this.imageCaptured = true;
       this.showDialog = true;
-      var uri = canvas.toDataURL();
+      const uri = canvas.toDataURL();
       this.post.photo = this.dataURItoBlob(uri);
-      // console.log(uri);
+
       this.imagesrc = uri;
       this.disableCamera();
     },
@@ -153,7 +159,7 @@ export default {
       let ctx = canvas.getContext("2d");
       let reader = new FileReader();
       reader.onload = (event) => {
-        var img = new Image();
+        const img = new Image();
         img.onload = () => {
           canvas.width = img.width;
           canvas.height = img.height;
@@ -203,8 +209,9 @@ export default {
       this.locationLoading = false;
     },
     addPost() {
-      const user = JSON.parse(localStorage.getItem("user"));
       Loading.show();
+
+      const user = JSON.parse(localStorage.getItem("user"));
       getFishByModel(this.imagesrc)
         .then((response) => {
           const reqBody = {

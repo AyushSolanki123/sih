@@ -33,7 +33,7 @@
               <div class="row">
                 <div class="col">
                   <span class="text-bold">Edibile:-</span>
-                  {{ activity.fish.isEdible }}
+                  {{ activity.fish.isEdible ? 'Yes' : 'No' }}
                 </div>
                 <div class="col">
                   <span class="text-bold">Price:-</span>

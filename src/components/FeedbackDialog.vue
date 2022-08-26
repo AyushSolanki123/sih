@@ -28,7 +28,10 @@
             class="col"
             outline
             color="red"
-            @click="consent = false"
+            @click="
+              consent = false;
+              $emit('closeDialog');
+            "
           />
         </div>
         <q-input
@@ -40,7 +43,7 @@
         />
       </q-card-section>
 
-      <q-card-actions align="right">
+      <q-card-actions align="right" v-if="!isCorrect">
         <q-btn
           flat
           no-caps

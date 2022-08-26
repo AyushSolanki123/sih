@@ -94,7 +94,12 @@ export default {
     },
   },
   created() {
-    this.checkLoginStatus();
+    const onboardingDone = localStorage.getItem("onboardingDone");
+    if (onboardingDone) {
+      this.checkLoginStatus();
+    } else {
+      this.$router.push("/splash");
+    }
   },
 };
 </script>
