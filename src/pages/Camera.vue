@@ -210,35 +210,28 @@ export default {
     },
     addPost() {
       Loading.show();
-      this.createThumbnail(this.imagesrc)
+
+      const user = JSON.parse(localStorage.getItem("user"));
+      getFishByModel(this.imagesrc)
         .then((response) => {
-          this.imagesrc = response;
-          const user = JSON.parse(localStorage.getItem("user"));
-          getFishByModel(this.imagesrc)
-            .then((response) => {
-              const reqBody = {
-                user: user._id,
-                fish: response._id["$oid"],
-                imageUrl: this.imagesrc,
-              };
-              return createHistory(reqBody);
-            })
-            .then((response) => {
-              this.$router.push({
-                name: "DetailActivity",
-                params: {
-                  activity: response.data,
-                },
-              });
-              Loading.hide();
-            })
-            .catch((error) => {
-              console.log(error);
-              Loading.hide();
-            });
+          const reqBody = {
+            user: user._id,
+            fish: response._id["$oid"],
+            imageUrl: this.imagesrc,
+          };
+          return createHistory(reqBody);
         })
-        .catch((err) => {
-          console.log(err);
+        .then((response) => {
+          this.$router.push({
+            name: "DetailActivity",
+            params: {
+              activity: response.data,
+            },
+          });
+          Loading.hide();
+        })
+        .catch((error) => {
+          console.log(error);
           Loading.hide();
         });
     },
