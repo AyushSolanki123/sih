@@ -12,7 +12,7 @@
               <q-btn flat icon="eva-arrow-ios-forward-outline"/>
             </q-card-section>
           </q-card>
-          <q-card class="radius q-mt-lg q-pa-md people">
+          <q-card class="radius q-mt-lg q-pa-md people" @click="$router.push('/feed')">
             <q-card-section horizontal>
               <div class="col-3">
                 <q-avatar>

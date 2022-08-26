@@ -35,6 +35,16 @@ const routes = [
         path: "/details",
         component: () => import("pages/DetailActivity.vue"),
       },
+      {
+        name: "Users",
+        path: "/users",
+        component: () => import("pages/Users.vue"),
+      },
+      {
+        name: "Feedback",
+        path: "/feed",
+        component: () => import("pages/Feedback.vue"),
+      },
     ],
   },
 

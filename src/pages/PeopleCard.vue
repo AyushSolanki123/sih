@@ -2,13 +2,20 @@
   <div>
     <q-card class="peopleCardStyle q-ml-lg q-mt-md">
       <q-card-section class="q-pa-sm q-px-lg">
-        <div class="row justify-between">
-          <div class="col-6 row">
-            <q-avatar class="q-mt-xs" color="primary" />
-            <div class="text-subtitle2 q-mt-md q-mx-lg">
-              {{ user.user.name }}
-            </div>
+        <div class="row">
+          <div class="col-3">
+            <q-avatar class="q-mt-xs">
+              <img src="Profile.jpg">
+            </q-avatar>
           </div>
+            <div class="column text-subtitle2 q-mt-xs q-mx-lg">
+              <div>
+                {{ user.firstName }} {{ user.lastName }}
+              </div>
+              <div>
+                {{ user.email }}
+              </div>
+            </div>
         </div>
       </q-card-section>
     </q-card>

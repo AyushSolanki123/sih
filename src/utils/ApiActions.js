@@ -175,6 +175,42 @@ export function getHistory(userId) {
   });
 }
 
+//user api start
+export function listAdminUsers() {
+  return new Promise(function (resolve, reject) {
+    apiActionWithToken({
+      method: "GET",
+      url: env.baseUrl + env.getUser,
+    })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
+//feedback
+
+export function listFeedback(){
+    return new Promise(function (resolve, reject) {
+        apiActionWithToken({
+        method: "GET",
+        url: env.baseUrl + env.listFeedback,
+        })
+        .then((response) => {
+            resolve(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject(error);
+        });
+    });
+}
+
+
 // Helper functions
 function apiActionWithToken(options) {
   return new Promise(function (resolve, reject) {
