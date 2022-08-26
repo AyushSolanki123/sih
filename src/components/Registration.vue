@@ -150,7 +150,6 @@ export default {
     },
   },
   created() {
-    console.log("Registration created");
     this.firstName = "";
     this.lastName = "";
     this.email = "";

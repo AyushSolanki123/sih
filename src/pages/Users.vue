@@ -1,24 +1,42 @@
 <template>
-  <q-page>
-    <div class="text-h4 text-bold text-center">Admin Users</div>
-    <div class="row justify-end">
+  <q-page padding class="bg-grey-2">
+    <div class="text-h5 text-bold text-center">Admin Users</div>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
         icon="eva-plus-outline"
         style="border-radius: 8px"
         no-caps
+        color="primary"
         @click="startReg"
         >Add User</q-btn
       >
-    </div>
+    </q-page-sticky>
+
     <div v-if="!loading">
-      <div v-for="user in users" :key="user._id">
-        <PeopleCard :user="user" />
-      </div>
+      <transition
+        appear
+        enter-active-class="animated slideInLeft"
+        leave-active-class="animated slideInRight"
+      >
+        <q-scroll-area style="height: 80%">
+          <div v-for="user in users" :key="user._id">
+            <PeopleCard :user="user" />
+          </div>
+        </q-scroll-area>
+      </transition>
     </div>
     <div v-else>
-      <div v-for="i in 6" :key="i">
-        <PeopleCardSkeleton />
-      </div>
+      <transition
+        appear
+        enter-active-class="animated slideInRight"
+        leave-active-class="animated slideInLeft"
+      >
+        <div>
+          <div v-for="i in 6" :key="i">
+            <PeopleCardSkeleton />
+          </div>
+        </div>
+      </transition>
     </div>
     <q-dialog v-model="showRegister">
       <Registration @register="adminUser" />
@@ -31,7 +49,7 @@ import PeopleCard from "./PeopleCard.vue";
 import Registration from "src/components/Registration.vue";
 import PeopleCardSkeleton from "./PeopleCardSkeleton.vue";
 import { listAdminUsers, registerUser } from "src/utils/ApiActions";
-import {notify} from 'src/functions/Notify'
+import { notify } from "src/functions/Notify";
 export default {
   components: { PeopleCard, PeopleCardSkeleton, Registration },
   data() {
@@ -44,23 +62,23 @@ export default {
   methods: {
     startReg() {
       this.showRegister = true;
-    //   console.log("Register", this.showRegister);
+      //   console.log("Register", this.showRegister);
     },
     getUsers() {
       this.loading = true;
       listAdminUsers()
         .then((response) => {
           this.users = response.data;
-        //   console.log(response);
+          //   console.log(response);
           this.loading = false;
         })
         .catch((error) => {
-        //   console.log(error);
+          //   console.log(error);
           this.loading = false;
         });
     },
     adminUser(user) {
-        this.showRegister = false;
+      this.showRegister = false;
       let data = {
         firstName: user.firstName,
         lastName: user.lastName,
@@ -68,7 +86,7 @@ export default {
         password: user.password,
         role: "ADMIN",
       };
-    //   console.log(data);
+      //   console.log(data);
       registerUser(data)
         .then((response) => {
           if ((response.message = "Registration Successful")) {

@@ -1,26 +1,24 @@
 <template>
   <div>
-    <q-card class="peopleCardStyle q-ml-lg q-mt-md">
+    <q-card class="peopleCardStyle q-ml-xs q-mt-md">
       <q-card-section class="q-pa-sm q-px-lg">
         <div class="row">
           <div class="col-3">
             <q-avatar class="q-mt-xs">
-              <img src="Profile.jpg">
+              <img src="Profile.jpg" />
             </q-avatar>
           </div>
-            <div class="column text-subtitle2 q-mt-xs q-mx-lg">
-              <div>
-                {{ user.firstName }} {{ user.lastName }}
-              </div>
-              <div>
-                {{ user.email }}
-              </div>
+          <div class="column text-subtitle2 q-mt-xs q-mx-lg">
+            <div class="text-bold">
+              {{ user.firstName }} {{ user.lastName }}
             </div>
+            <div>
+              {{ user.email }}
+            </div>
+          </div>
         </div>
       </q-card-section>
     </q-card>
-
-    
   </div>
 </template>
 
@@ -34,16 +32,14 @@ export default {
     },
   },
   data() {
-    return {
-    };
+    return {};
   },
-  
 };
 </script>
 
 <style>
 .peopleCardStyle {
   border-radius: 8px !important;
-  background-color:#edf2f5;
+  /* background-color: #edf2f5; */
 }
 </style>

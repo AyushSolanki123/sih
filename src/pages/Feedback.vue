@@ -1,26 +1,23 @@
 <template>
-  <q-page class="bg-grey-2">
+  <q-page class="bg-grey-2" padding>
     <div class="text-h5 text-center text-bold">Feedback</div>
     <div v-if="!loading">
       <div v-for="feed in feedback" :key="feed._id">
-        <q-card class="q-ma-md actCard radius">
+        <q-card class="q-my-md q-ml-sm actCard radius">
           <q-card-section horizontal>
             <q-avatar class="q-pa-md">
-              <img src="Profile.jpg" />
+              <img :src="feed.imageUrl ? feed.imageUrl : 'Profile.jpg'" />
             </q-avatar>
             <q-card-section class="col text-center">
-              <div v-if="feed.fish!==null" class="text-weight-bold">
-                            {{ feed.fish.name }}
-                        </div>
-                        <div v-else class="text-weight-bold">
-                            Name not found
-                        </div>
+              <div class="text-weight-bold">
+                {{ feed.fish.name }}
+              </div>
               <div class="">
-                <span class="text-weight-bold">User:- </span>
+                <span class="text-weight-bold">User: </span>
                 {{ feed.user.firstName }} {{ feed.user.lastName }}
               </div>
               <div class="">
-                <span class="text-weight-bold">Feedback:- </span>
+                <span class="text-weight-bold">Feedback: </span>
                 {{ feed.feedback }}
               </div>
             </q-card-section>
