@@ -178,7 +178,7 @@ export default {
             console.log(userInfo);
             updateUser(userInfo)
               .then((response) => {
-                notify("Success", response.message);
+                // notify("Success", response.message);
                 this.loading = false;
                 that.$router.push("/");
               })

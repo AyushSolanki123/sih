@@ -227,6 +227,23 @@ export function createFeedback(data){
     });
 }
 
+export function getFishByModel(baseUrl) {
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'POST',
+      url: 'http://localhost:5000/predict',
+      data: {"Base_64": baseUrl}
+    })
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  }) 
+}
+
+
 
 // Helper functions
 function apiActionWithToken(options) {

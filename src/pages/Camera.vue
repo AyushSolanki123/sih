@@ -77,10 +77,10 @@
 </template>
 
 <script>
-import { uid } from "quasar";
+import { uid, Loading } from "quasar";
 import FeedbackDialog from "src/components/FeedbackDialog.vue";
 import InfoPage from "src/pages/InfoPage.vue";
-import { updateUser, createHistory } from "src/utils/ApiActions";
+import { updateUser, createHistory, getFishByModel } from "src/utils/ApiActions";
 export default {
   components: { FeedbackDialog, InfoPage },
   name: "Camera",
@@ -200,12 +200,16 @@ export default {
     },
     addPost() {
       const user = JSON.parse(localStorage.getItem("user"));
-      const reqBody = {
+      Loading.show()
+      getFishByModel(this.imagesrc)
+        .then((response) => {
+          const reqBody = {
         user: user._id,
-        fish: "6307db31f8933d62c14703f4",
+        fish: response._id["$oid"],
         imageUrl: this.imagesrc,
       };
-      createHistory(reqBody)
+        return createHistory(reqBody);
+        }) 
         .then((response) => {
           this.$router.push({
             name: "DetailActivity",
@@ -213,9 +217,11 @@ export default {
               activity: response.data,
             },
           });
+          Loading.hide()
         })
         .catch((error) => {
           console.log(error);
+          Loading.hide()
         });
     },
     getFishData() {
