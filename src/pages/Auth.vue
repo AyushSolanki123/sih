@@ -96,7 +96,7 @@
 <script>
 import Registration from "src/components/Registration.vue";
 import { notify } from "src/functions/Notify";
-import { getCurrentLocation } from "src/functions/GetCurrentLocation";
+import getCurrentLocation from "src/functions/GetCurrentLocation";
 import { registerUser, loginUser, updateUser } from "src/utils/ApiActions";
 
 export default {
