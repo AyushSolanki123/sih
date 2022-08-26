@@ -2,17 +2,34 @@
   <q-dialog v-model="showDialog" position="bottom" persistent>
     <q-card>
       <q-card-section class="row justify-between">
-        <div class="text-subtitle1 text-bold">Thank you for using our Application!</div>
+        <div class="text-subtitle1 text-bold">
+          Thank you for using our Application!
+        </div>
         <q-btn flat round dense icon="close" @click="$emit('closeDialog')" />
       </q-card-section>
 
       <q-card-section class="q-pt-none text-caption">
         <div>
-          Would you be willing to take two minutes and sharing about the detection accuracy?
+          Would you be willing to take two minutes and sharing about the
+          detection accuracy?
         </div>
         <div class="q-my-sm column q-gutter-sm" v-if="!consent">
-          <q-btn label="Provide Feedback" color="positive" class="col" @click="isCorrect=false; consent = true;" />
-          <q-btn label="No Thanks"  class="col" outline color="red" @click="consent = false" />
+          <q-btn
+            label="Provide Feedback"
+            color="positive"
+            class="col"
+            @click="
+              isCorrect = false;
+              consent = true;
+            "
+          />
+          <q-btn
+            label="No Thanks"
+            class="col"
+            outline
+            color="red"
+            @click="consent = false"
+          />
         </div>
         <q-input
           v-if="!isCorrect"
@@ -49,7 +66,7 @@ export default {
     return {
       isCorrect: true,
       consent: false,
-      comment: ""
+      comment: "",
     };
   },
 };

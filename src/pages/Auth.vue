@@ -96,6 +96,7 @@
 <script>
 import Registration from "src/components/Registration.vue";
 import { notify } from "src/functions/Notify";
+import { getCurrentLocation } from "src/functions/GetCurrentLocation";
 import { registerUser, loginUser, updateUser } from "src/utils/ApiActions";
 
 export default {
@@ -155,35 +156,25 @@ export default {
             );
             const user = response.data.user;
             localStorage.setItem("user", JSON.stringify(user));
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                this.location.lat = position.coords.latitude;
-                this.location.long = position.coords.longitude;
-                console.log(position);
-              },
-              this.locationError,
-              {
-                enableHighAccuracy: true,
-                maximumAge: 0,
-              }
-            );
-
-            let lat = that.location.lat;
-            let long = that.location.long;
-            let userInfo = {
-              userId: user._id,
-              latitude: lat,
-              longitude: long,
-            };
-            console.log(userInfo);
-            updateUser(userInfo)
-              .then((response) => {
+            getCurrentLocation()
+              .then((location) => {
+                let lat = location.latitude;
+                let long = location.longituded;
+                let userInfo = {
+                  userId: user._id,
+                  latitude: lat,
+                  longitude: long,
+                };
+                return updateUser(userInfo);
+              })
+              .then(() => {
                 notify("Success", "Login Successful");
                 this.loading = false;
                 that.$router.push("/");
               })
               .catch((error) => {
                 console.log(error);
+                notify("Failed", error.message);
               });
           } else {
             notify("Failed", "Login Failed");

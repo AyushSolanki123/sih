@@ -194,56 +194,54 @@ export function listAdminUsers() {
 
 //feedback
 
-export function listFeedback(){
-    return new Promise(function (resolve, reject) {
-        apiActionWithToken({
-        method: "GET",
-        url: env.baseUrl + env.listFeedback,
-        })
-        .then((response) => {
-            resolve(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-            reject(error);
-        });
-    });
+export function listFeedback() {
+  return new Promise(function (resolve, reject) {
+    apiActionWithToken({
+      method: "GET",
+      url: env.baseUrl + env.listFeedback,
+    })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
 }
 
-export function createFeedback(data){
-    return new Promise(function (resolve, reject) {
-        apiActionWithToken({
-        method: "POST",
-        url: env.baseUrl + env.createFeedback,
-        data: data
-        })
-        .then((response) => {
-            resolve(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-            reject(error);
-        });
-    });
+export function createFeedback(data) {
+  return new Promise(function (resolve, reject) {
+    apiActionWithToken({
+      method: "POST",
+      url: env.baseUrl + env.createFeedback,
+      data: data,
+    })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
 }
 
 export function getFishByModel(baseUrl) {
   return new Promise((resolve, reject) => {
     axios({
-      method: 'POST',
-      url: 'http://localhost:5000/predict',
-      data: {"Base_64": baseUrl}
+      method: "POST",
+      url: "http://localhost:5000/predict",
+      data: { Base_64: baseUrl },
     })
       .then((response) => {
-        resolve(response.data)
+        resolve(response.data);
       })
       .catch((error) => {
-        reject(error)
-      })
-  }) 
+        reject(error);
+      });
+  });
 }
-
-
 
 // Helper functions
 function apiActionWithToken(options) {

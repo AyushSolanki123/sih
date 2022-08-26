@@ -5,9 +5,6 @@
         <img src="Profile.jpg" />
       </q-avatar>
       <q-card-section class="col text-center">
-        <!-- <div class="text-weight-bold">
-                        {{ feed.fish.name }}
-                    </div> -->
         <q-skeleton class="q-ma-xs" width="200px" />
         <q-skeleton class="q-ma-xs" width="200px" />
         <q-skeleton class="q-ma-xs" width="200px" />

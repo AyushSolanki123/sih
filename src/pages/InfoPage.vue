@@ -1,9 +1,19 @@
 <template>
   <div>
     <div v-if="imageCaptured" class="q-pa-md">
-      <q-input outlined v-model="weight" label="Enter Estimated weight" type="number">
+      <q-input
+        outlined
+        v-model="weight"
+        label="Enter Estimated weight"
+        type="number"
+      >
         <template v-slot:after>
-          <q-select v-model="type" :options="options" label="Unit" behavior="menu" />
+          <q-select
+            v-model="type"
+            :options="options"
+            label="Unit"
+            behavior="menu"
+          />
         </template>
       </q-input>
     </div>
@@ -35,38 +45,34 @@
 
 <script>
 export default {
-    props:{
-        weight:{
-            type:String,
-            required:false,
-        },
-        type:{
-            type:String,
-            required: true
-        },
-        name:{
-            type:String,
-            required: true
-        },
-        regionalName:{
-            type:String,
-            required: true
-        },
-        speciesName:{
-            type:String,
-            required: true
-        },
-        imageCaptured:{
-            type:Boolean,
-            default: false,
-            required: true
-        }
-        
-    }
-
-}
+  props: {
+    weight: {
+      type: String,
+      required: false,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    regionalName: {
+      type: String,
+      required: true,
+    },
+    speciesName: {
+      type: String,
+      required: true,
+    },
+    imageCaptured: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
