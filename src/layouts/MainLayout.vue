@@ -63,7 +63,7 @@ export default {
   name: "MainLayout",
   data() {
     return {
-      isAdmin: true,
+      isAdmin: false,
       user: {},
     };
   },
