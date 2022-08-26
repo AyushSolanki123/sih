@@ -48,19 +48,6 @@
           </q-file>
         </div>
 
-        <div v-if="imageCaptured" class="q-pa-md">
-          <q-input outlined v-model="weight" label="Enter Estimated weight">
-            <template v-slot:after>
-              <q-select
-                v-model="type"
-                :options="options"
-                label="Unit"
-                behavior="menu"
-              />
-            </template>
-          </q-input>
-        </div>
-
         <div v-show="imageCaptured" class="row q-pa-md q-mx-md">
           <q-btn
             no-caps
@@ -78,6 +65,7 @@
 
 <script>
 import { uid, Loading } from "quasar";
+import { resizeBase64ForMaxHeight } from "resize-base64";
 import FeedbackDialog from "src/components/FeedbackDialog.vue";
 import InfoPage from "src/pages/InfoPage.vue";
 import {
@@ -130,6 +118,17 @@ export default {
           this.hasCameraSupport = false;
         });
     },
+    createThumbnail(image) {
+      resizeBase64ForMaxHeight(
+        image,
+        256,
+        256,
+        img => {
+          this.imagesrc = img;
+        },
+        err => {}
+      );
+    },
     captureImage() {
       let video = this.$refs.video;
       let canvas = this.$refs.canvas;
@@ -144,6 +143,7 @@ export default {
       this.post.photo = this.dataURItoBlob(uri);
       // console.log(uri);
       this.imagesrc = uri;
+      this.createThumbnail(this.imagesrc);
       this.disableCamera();
     },
     captureImageFallBack(file) {
@@ -163,6 +163,8 @@ export default {
         };
         img.src = event.target.result;
         that.imagesrc = event.target.result;
+        that.createThumbnail(that.imagesrc);
+        console.log(that.imagesrc);
       };
       reader.readAsDataURL(file);
     },
