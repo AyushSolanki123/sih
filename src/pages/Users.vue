@@ -51,11 +51,11 @@ export default {
       listAdminUsers()
         .then((response) => {
           this.users = response.data;
-          console.log(response);
+        //   console.log(response);
           this.loading = false;
         })
         .catch((error) => {
-          console.log(error);
+        //   console.log(error);
           this.loading = false;
         });
     },
@@ -68,25 +68,15 @@ export default {
         password: user.password,
         role: "ADMIN",
       };
-      console.log(data);
+    //   console.log(data);
       registerUser(data)
         .then((response) => {
           if ((response.message = "Registration Successful")) {
-            notify({
-              message: "Registration Success",
-              color: "positive",
-              type: "positive",
-              icon: "eva-checkmark-circle-outline",
-            });
+            notify("Success", "User Registered Successfully");
           }
         })
         .catch((error) => {
-          notify({
-            message: "User already exists!",
-            color: "negative",
-            icon: "eva-close-circle-outline",
-            type: "negative",
-          });
+          notify("Error", "User Registration Failed");
           console.log(error);
         });
     },

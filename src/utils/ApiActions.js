@@ -210,6 +210,23 @@ export function listFeedback(){
     });
 }
 
+export function createFeedback(data){
+    return new Promise(function (resolve, reject) {
+        apiActionWithToken({
+        method: "POST",
+        url: env.baseUrl + env.createFeedback,
+        data: data
+        })
+        .then((response) => {
+            resolve(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject(error);
+        });
+    });
+}
+
 
 // Helper functions
 function apiActionWithToken(options) {

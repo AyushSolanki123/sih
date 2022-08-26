@@ -10,7 +10,6 @@
         <div>
           Would you be willing to take two minutes and sharing about the detection accuracy?
         </div>
-        </div>
         <div class="q-my-sm column q-gutter-sm" v-if="!consent">
           <q-btn label="Provide Feedback" color="positive" class="col" @click="isCorrect=false; consent = true;" />
           <q-btn label="No Thanks"  class="col" outline color="red" @click="consent = false" />

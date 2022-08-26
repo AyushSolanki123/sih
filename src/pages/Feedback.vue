@@ -9,9 +9,12 @@
               <img src="Profile.jpg" />
             </q-avatar>
             <q-card-section class="col text-center">
-              <!-- <div class="text-weight-bold">
+              <div v-if="feed.fish!==null" class="text-weight-bold">
                             {{ feed.fish.name }}
-                        </div> -->
+                        </div>
+                        <div v-else class="text-weight-bold">
+                            Name not found
+                        </div>
               <div class="">
                 <span class="text-weight-bold">User:- </span>
                 {{ feed.user.firstName }} {{ feed.user.lastName }}

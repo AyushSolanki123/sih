@@ -82,6 +82,8 @@
 
 <script>
 import FeedBackDialog from "src/components/FeedbackDialog.vue";
+import { createFeedback } from "src/utils/ApiActions";
+import { notify } from "src/functions/Notify";
 export default {
   components: {
     FeedBackDialog,
@@ -96,8 +98,22 @@ export default {
   },
   methods: {
     sendFeedback(comment) {
-      console.log(comment);
+      // let id = localStorage.getItem('user')._id;
+      let data = {
+        user: this.activity.user._id,
+        feedback: comment,
+        fish: this.activity.fish._id,
+      };
+        console.log("comment: ",data);
       this.showFeedbackDialog = false;
+      createFeedback(data)
+        .then((res) => {
+          notify("Success", res.message);
+        })
+        .catch((err) => {
+          notify("Error", err.message);
+          console.log(err);
+        });
     },
   },
   created() {
