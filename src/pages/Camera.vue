@@ -119,15 +119,22 @@ export default {
         });
     },
     createThumbnail(image) {
-      resizeBase64ForMaxHeight(
-        image,
-        256,
-        256,
-        img => {
-          this.imagesrc = img;
-        },
-        err => {}
-      );
+      return new Promise((resolve, reject) => {
+        const that = this;
+        resizeBase64ForMaxHeight(
+          image,
+          256,
+          256,
+          (img) => {
+            console.log("inside", img);
+            that.imagesrc = img;
+            resolve(img);
+          },
+          (err) => {
+            reject(err);
+          }
+        );
+      });
     },
     captureImage() {
       let video = this.$refs.video;
@@ -139,11 +146,10 @@ export default {
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       this.imageCaptured = true;
       this.showDialog = true;
-      var uri = canvas.toDataURL();
+      const uri = canvas.toDataURL();
       this.post.photo = this.dataURItoBlob(uri);
-      // console.log(uri);
+
       this.imagesrc = uri;
-      this.createThumbnail(this.imagesrc);
       this.disableCamera();
     },
     captureImageFallBack(file) {
@@ -153,7 +159,7 @@ export default {
       let ctx = canvas.getContext("2d");
       let reader = new FileReader();
       reader.onload = (event) => {
-        var img = new Image();
+        const img = new Image();
         img.onload = () => {
           canvas.width = img.width;
           canvas.height = img.height;
@@ -163,8 +169,6 @@ export default {
         };
         img.src = event.target.result;
         that.imagesrc = event.target.result;
-        that.createThumbnail(that.imagesrc);
-        console.log(that.imagesrc);
       };
       reader.readAsDataURL(file);
     },
@@ -205,28 +209,36 @@ export default {
       this.locationLoading = false;
     },
     addPost() {
-      const user = JSON.parse(localStorage.getItem("user"));
       Loading.show();
-      getFishByModel(this.imagesrc)
+      this.createThumbnail(this.imagesrc)
         .then((response) => {
-          const reqBody = {
-            user: user._id,
-            fish: response._id["$oid"],
-            imageUrl: this.imagesrc,
-          };
-          return createHistory(reqBody);
+          this.imagesrc = response;
+          const user = JSON.parse(localStorage.getItem("user"));
+          getFishByModel(this.imagesrc)
+            .then((response) => {
+              const reqBody = {
+                user: user._id,
+                fish: response._id["$oid"],
+                imageUrl: this.imagesrc,
+              };
+              return createHistory(reqBody);
+            })
+            .then((response) => {
+              this.$router.push({
+                name: "DetailActivity",
+                params: {
+                  activity: response.data,
+                },
+              });
+              Loading.hide();
+            })
+            .catch((error) => {
+              console.log(error);
+              Loading.hide();
+            });
         })
-        .then((response) => {
-          this.$router.push({
-            name: "DetailActivity",
-            params: {
-              activity: response.data,
-            },
-          });
-          Loading.hide();
-        })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
           Loading.hide();
         });
     },
