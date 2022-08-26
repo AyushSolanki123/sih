@@ -6,6 +6,7 @@
 <script>
 import { updateUser } from "src/utils/ApiActions";
 import { logOutUser, loginStatus } from "./utils/ApiActions";
+import { notify } from "./functions/Notify";
 export default {
   name: "App",
   data() {

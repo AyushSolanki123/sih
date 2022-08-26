@@ -102,9 +102,10 @@ export default {
       let data = {
         user: this.activity.user._id,
         feedback: comment,
+        imageUrl: this.activity.imageUrl,
         fish: this.activity.fish._id,
       };
-        console.log("comment: ",data);
+      console.log("comment: ", data);
       this.showFeedbackDialog = false;
       createFeedback(data)
         .then((res) => {
