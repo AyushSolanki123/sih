@@ -7,6 +7,17 @@ const routes = [
     ],
   },
   {
+    path: "/splash",
+    component: () => import("layouts/SplashLayout.vue"),
+    children: [
+      {
+        name: "SplashScreen",
+        path: "/",
+        component: () => import("pages/SplashScreen.vue"),
+      },
+    ],
+  },
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
