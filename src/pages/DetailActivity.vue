@@ -72,20 +72,37 @@
         </q-card-section>
       </q-card>
     </transition>
+    <FeedBackDialog
+      :showDialog="showFeedbackDialog"
+      @closeDialog="showFeedbackDialog = false"
+      @submit="sendFeedback"
+    />
   </q-page>
 </template>
 
 <script>
+import FeedBackDialog from "src/components/FeedbackDialog.vue";
 export default {
+  components: {
+    FeedBackDialog,
+  },
   data() {
     return {
+      showFeedbackDialog: false,
       activity: {},
       user: {},
       keys: [],
     };
   },
+  methods: {
+    sendFeedback(comment) {
+      console.log(comment);
+      this.showFeedbackDialog = false;
+    },
+  },
   created() {
     this.activity = this.$route.params.activity;
+    console.log(this.activity);
     this.activity.fish.nutritionalValue = JSON.parse(
       this.activity.fish.nutritionalValue
     );
@@ -93,6 +110,7 @@ export default {
       this.activity.fish.regionalNames
     );
     this.keys = Object.keys(this.activity);
+    this.showFeedbackDialog = true;
   },
 };
 </script>

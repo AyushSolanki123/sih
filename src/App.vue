@@ -73,11 +73,7 @@ export default {
     logOut() {
       logOutUser().then((_response) => {
         this.$router.push("/auth");
-        notify({
-          message: "Session Expired! Please Login Again.",
-          color: "warning",
-          type: "warning",
-        });
+        notify("Failed", "Session Expired! Please Login Again.");
       });
     },
     checkLoginStatus() {

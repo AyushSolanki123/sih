@@ -8,7 +8,7 @@
             <template v-slot:label>
               <div class="row items-center no-wrap q-ma-none">
                 <q-avatar color="grey" text-color="black">
-                  {{ user.firstName[0] }}</q-avatar
+                  {{ user.firstName[0].toUpperCase() }}</q-avatar
                 >
               </div>
             </template>

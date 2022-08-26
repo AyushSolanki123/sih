@@ -123,29 +123,18 @@ export default {
     register(user) {
       registerUser(user)
         .then((response) => {
-          localStorage.setItem("authToken", response.data.token.authToken);
-          localStorage.setItem(
-            "refreshToken",
-            response.data.token.refreshToken
-          );
-          localStorage.setItem("user", response.data.user);
-          if ((response.message = "User Registered Successfully")) {
-            notify({
-              message: "Registration Success",
-              color: "positive",
-              type: "positive",
-              icon: "eva-checkmark-circle-outline",
-            });
+          console.log(response);
+          localStorage.setItem("authToken", response.tokenPair.authToken);
+          localStorage.setItem("refreshToken", response.tokenPair.refreshToken);
+          const user = response.user;
+          localStorage.setItem("user", JSON.stringify(user));
+          if (response) {
+            notify("Success", response.message);
             this.$router.push("/");
           }
         })
         .catch((error) => {
-          notify({
-            message: "User already exists!",
-            color: "negative",
-            icon: "eva-close-circle-outline",
-            type: "negative",
-          });
+          notify("Failed", error.message);
           console.log(error);
         });
     },

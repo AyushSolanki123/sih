@@ -122,7 +122,7 @@ export default {
         .then((stream) => {
           this.$refs.video.srcObject = stream;
         })
-        .catch((error) => {
+        .catch((_error) => {
           this.hasCameraSupport = false;
         });
     },
@@ -222,7 +222,7 @@ export default {
       this.loading = false;
     },
   },
-  mounted() {
+  created() {
     this.initCamera();
   },
   beforeDestroy() {
